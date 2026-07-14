@@ -1,0 +1,51 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# SQLite runtime databases
+database/*.sqlite
+database/*.sqlite-*
+
+# Runtime files
+storage/**
+!storage/
+!storage/.gitkeep
+!storage/cache/
+!storage/cache/.gitkeep
+!storage/logs/
+!storage/logs/.gitkeep
+!storage/temp/
+!storage/temp/.gitkeep
+
+# User uploads and generated files
+uploads/**
+!uploads/
+!uploads/.gitkeep
+
+# Deployment build output
+deploy/
+
+# Local generated backups and archives
+_backup_*/
+*.zip
+*.7z
+*.rar
+
+# Local Codex/plugin metadata
+.agents/
+.codex/
+.gigacode/
+
+# Local presentation generator runtime
+local-presentation-generator/.env
+local-presentation-generator/runtime/php/
+local-presentation-generator/storage/**
+!local-presentation-generator/storage/
+!local-presentation-generator/storage/.gitkeep
+local-presentation-generator/public/downloads/**
+!local-presentation-generator/public/downloads/
+!local-presentation-generator/public/downloads/.gitkeep
+
+# Logs
+*.log

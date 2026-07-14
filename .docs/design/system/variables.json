@@ -1,0 +1,199 @@
+{
+	"variables": {
+		"typography": {
+			"fonts": {
+				"primary": {
+					"description": "",
+					"family": "",
+					"fallback": ""
+				},
+				"accent": {
+					"description": "",
+					"family": "",
+					"fallback": ""
+				},
+				"secondary": {
+					"description": "",
+					"family": "",
+					"fallback": ""
+				}
+			},
+			"scale": {
+				"xs": { "size": "", "lineHeight": "" },
+				"sm": { "size": "", "lineHeight": "" },
+				"base": { "size": "", "lineHeight": "" },
+				"md": { "size": "", "lineHeight": "" },
+				"lg": { "size": "", "lineHeight": "" },
+				"xl": { "size": "", "lineHeight": "" },
+				"2xl": { "size": "", "lineHeight": "" },
+				"3xl": { "size": "", "lineHeight": "" },
+				"4xl": { "size": "", "lineHeight": "" }
+			},
+			"weights": {
+				"regular": null,
+				"medium": null,
+				"semibold": null,
+				"bold": null
+			},
+			"letterSpacing": {
+				"tight": "",
+				"normal": "",
+				"wide": "",
+				"wider": ""
+			}
+		},
+
+		"colors": {
+			"light": {
+				"background": {
+					"primary": "",
+					"secondary": "",
+					"tertiary": ""
+				},
+				"text": {
+					"primary": "",
+					"secondary": "",
+					"muted": "",
+					"inverse": "",
+					"accent": ""
+				},
+				"accent": {
+					"primary": "",
+					"hover": "",
+					"light": ""
+				},
+				"secondary_accent": {
+					"primary": "",
+					"hover": "",
+					"light": ""
+				},
+				"semantic": {
+					"success": "",
+					"successBg": "",
+					"warning": "",
+					"warningBg": "",
+					"error": "",
+					"errorBg": "",
+					"info": "",
+					"infoBg": ""
+				},
+				"border": {
+					"light": "",
+					"default": "",
+					"strong": ""
+				}
+			},
+			"dark": {
+				"background": {
+					"primary": "",
+					"secondary": "",
+					"tertiary": ""
+				},
+				"text": {
+					"primary": "",
+					"secondary": "",
+					"muted": "",
+					"inverse": "",
+					"accent": ""
+				},
+				"accent": {
+					"primary": "",
+					"hover": "",
+					"light": ""
+				},
+				"border": {
+					"light": "",
+					"default": "",
+					"strong": ""
+				}
+			},
+			"panel": {
+				"description": "",
+				"background": "",
+				"text": "",
+				"accent": "",
+				"muted": ""
+			},
+			"product": {
+				"sale": "",
+				"saleBg": "",
+				"new": "",
+				"newBg": "",
+				"hit": "",
+				"hitBg": "",
+				"outOfStock": "",
+				"outOfStockBg": ""
+			}
+		},
+
+		"spacing": {
+			"0": "",
+			"1": "",
+			"2": "",
+			"3": "",
+			"4": "",
+			"5": "",
+			"6": "",
+			"8": "",
+			"10": "",
+			"12": "",
+			"16": "",
+			"20": "",
+			"24": ""
+		},
+
+		"borderRadius": {
+			"none": "",
+			"sm": "",
+			"md": "",
+			"lg": "",
+			"xl": "",
+			"2xl": "",
+			"full": "",
+			"button": "",
+			"card": "",
+			"badge": "",
+			"input": "",
+			"image": ""
+		},
+
+		"shadows": {
+			"xs": "",
+			"sm": "",
+			"md": "",
+			"lg": "",
+			"xl": "",
+			"card": ""
+		},
+
+		"transitions": {
+			"fast": "",
+			"normal": "",
+			"slow": ""
+		},
+
+		"zIndex": {
+			"dropdown": null,
+			"sticky": null,
+			"overlay": null,
+			"modal": null,
+			"toast": null
+		},
+
+		"breakpoints": {
+			"xs": "",
+			"sm": "",
+			"md": "",
+			"lg": "",
+			"xl": "",
+			"2xl": ""
+		},
+
+		"grid": {
+			"columns": null,
+			"gutter": "",
+			"margin": "",
+			"maxWidth": ""
+		}
+	}
+}

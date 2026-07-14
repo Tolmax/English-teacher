@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Управление классами, домашними заданиями и материалами учителя.">
+  <title>Классы и материалы — English Teacher</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <a class="nav__brand" href="dashboard.html">Teacher Admin</a>
+      <nav class="admin-sidebar__nav" aria-label="Админская навигация">
+        <a class="admin-sidebar__link" href="dashboard.html">Сводка</a>
+        <a class="admin-sidebar__link" href="classes.html" aria-current="page">Классы</a>
+        <a class="admin-sidebar__link" href="submissions.html">Ответы учеников</a>
+        <a class="admin-sidebar__link" href="../home.html">На сайт</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <section class="stack" aria-labelledby="classes-admin-title">
+        <div class="section__header">
+          <h1 id="classes-admin-title">Классы и материалы</h1>
+          <p class="section__lead">Здесь учитель видит классы, актуальную домашку, опубликованные материалы и статус сдачи.</p>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <div class="card__header"><h2>5А</h2><span class="badge badge--new">Домашка</span></div>
+            <p class="card__text">School subjects, 12 учеников, 7 ответов отправлено.</p>
+            <div class="card__actions"><button class="button button--secondary button--small" type="button">Обновить домашку</button><a class="button button--primary button--small" href="submissions.html">Ответы</a></div>
+          </article>
+          <article class="card">
+            <div class="card__header"><h2>7Б</h2><span class="badge badge--warning">Дедлайн</span></div>
+            <p class="card__text">Past Simple, 18 учеников, 11 ответов отправлено.</p>
+            <div class="card__actions"><button class="button button--secondary button--small" type="button">Обновить домашку</button><a class="button button--primary button--small" href="submissions.html">Ответы</a></div>
+          </article>
+          <article class="card">
+            <div class="card__header"><h2>9В</h2><span class="badge badge--important">Контрольная</span></div>
+            <p class="card__text">Revision, 15 учеников, 4 ответа отправлено.</p>
+            <div class="card__actions"><button class="button button--secondary button--small" type="button">Обновить домашку</button><a class="button button--primary button--small" href="submissions.html">Ответы</a></div>
+          </article>
+        </div>
+        <section class="card" aria-labelledby="materials-admin-title">
+          <div class="card__header"><h2 id="materials-admin-title">Последние материалы</h2><button class="button button--primary button--small" type="button">Добавить материал</button></div>
+          <div class="table-wrap">
+            <table class="table">
+              <caption>Опубликованные учебные материалы</caption>
+              <thead><tr><th scope="col">Материал</th><th scope="col">Класс</th><th scope="col">Статус</th><th scope="col">Действие</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Past Simple mini-test</th><td>7Б</td><td><span class="badge badge--new">Новое</span></td><td><a href="submissions.html">Ответы</a></td></tr>
+                <tr><th scope="row">School subjects vocabulary</th><td>5А</td><td><span class="badge">Повторение</span></td><td><a href="submissions.html">Ответы</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="../../assets/js/main.js"></script>
+</body>
+</html>

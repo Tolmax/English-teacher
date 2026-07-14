@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Дизайн-система лендинга учителя английского языка с компонентами для учеников и страниц классов.">
+  <title>Дизайн-система — Лендинг учителя английского</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+  <header class="ds-page-header">
+    <div class="container nav">
+      <a class="nav__brand" href="#top">English Teacher UI</a>
+      <nav aria-label="Быстрая навигация">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#tokens-colors">Токены</a></li>
+          <li><a class="nav__link" href="#common-buttons">Элементы</a></li>
+          <li><a class="nav__link" href="#app-components">Компоненты</a></li>
+        </ul>
+      </nav>
+      <button class="button button--primary button--small" type="button" data-modal="demo-modal">Открыть модалку</button>
+    </div>
+  </header>
+
+  <main id="top" class="section">
+    <div class="container ds-layout">
+      <aside class="ds-layout__nav" aria-label="Содержание дизайн-системы">
+        <nav class="ds-sidebar">
+          <a class="ds-sidebar__link" href="#tokens-colors">Цвета</a>
+          <a class="ds-sidebar__link" href="#tokens-typography">Типографика</a>
+          <a class="ds-sidebar__link" href="#tokens-spacing">Отступы</a>
+          <a class="ds-sidebar__link" href="#tokens-radius">Радиусы</a>
+          <a class="ds-sidebar__link" href="#tokens-shadows">Тени</a>
+          <a class="ds-sidebar__link" href="#tokens-transitions">Переходы</a>
+          <a class="ds-sidebar__link" href="#common-buttons">Кнопки</a>
+          <a class="ds-sidebar__link" href="#common-inputs">Поля ввода</a>
+          <a class="ds-sidebar__link" href="#common-special-forms">Спецэлементы форм</a>
+          <a class="ds-sidebar__link" href="#common-badges">Бейджи и чипы</a>
+          <a class="ds-sidebar__link" href="#common-icons">Иконки</a>
+          <a class="ds-sidebar__link" href="#common-dividers">Разделители</a>
+          <a class="ds-sidebar__link" href="#common-avatars">Аватары</a>
+          <a class="ds-sidebar__link" href="#common-tooltips">Тултипы</a>
+          <a class="ds-sidebar__link" href="#common-modals">Модальные окна</a>
+          <a class="ds-sidebar__link" href="#common-notifications">Уведомления</a>
+          <a class="ds-sidebar__link" href="#common-pagination">Пагинация</a>
+          <a class="ds-sidebar__link" href="#common-navigation">Навигация</a>
+          <a class="ds-sidebar__link" href="#common-tabs">Табы</a>
+          <a class="ds-sidebar__link" href="#common-accordion">Аккордеон</a>
+          <a class="ds-sidebar__link" href="#common-skeletons">Скелетоны</a>
+          <a class="ds-sidebar__link" href="#common-auth">Формы авторизации</a>
+          <a class="ds-sidebar__link" href="#app-components">Компоненты приложения</a>
+        </nav>
+      </aside>
+
+      <div class="stack">
+        <section class="hero ds-section" aria-labelledby="intro-title">
+          <div class="hero__inner">
+            <div class="hero__content">
+              <p class="hero__eyebrow">Дизайн-система</p>
+              <h1 id="intro-title">Лендинг учителя английского</h1>
+              <p class="hero__text">Светлая образовательная система с сине-красными акцентами, крупными CTA, карточками классов, материалами и интерактивными вопросами для учеников.</p>
+              <div class="hero__actions">
+                <a class="button button--primary button--large" href="#app-class-selector">Выбрать класс</a>
+                <a class="button button--secondary button--large" href="#app-extra-lessons">Допзанятия</a>
+              </div>
+            </div>
+            <div class="hero__media" aria-label="Место для фото преподавателя">
+              <div class="hero__placeholder">Фото учителя английского</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="tokens-colors" class="section ds-section" aria-labelledby="colors-title">
+          <div class="section__header">
+            <h2 id="colors-title">Цвета</h2>
+            <p class="section__lead">Группы из `variables.json`: background, text, accent, secondary_accent, semantic, border и product.</p>
+          </div>
+          <div class="demo-grid demo-grid--three">
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--primary"></div><div class="demo-swatch__body"><strong>primary</strong><br>#315FBA</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--secondary"></div><div class="demo-swatch__body"><strong>secondary</strong><br>#EAF2FF</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--accent"></div><div class="demo-swatch__body"><strong>accent</strong><br>#F35B63</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--bg"></div><div class="demo-swatch__body"><strong>background</strong><br>#F8FBFF</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--surface"></div><div class="demo-swatch__body"><strong>surface</strong><br>#FFFFFF</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--text"></div><div class="demo-swatch__body"><strong>text</strong><br>#1E2633</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--muted"></div><div class="demo-swatch__body"><strong>text-muted</strong><br>#5F6B7A</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--border"></div><div class="demo-swatch__body"><strong>border</strong><br>#DDE7F3</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--danger"></div><div class="demo-swatch__body"><strong>danger</strong><br>#D9424B</div></article>
+            <article class="demo-swatch"><div class="demo-swatch__color swatch--success"></div><div class="demo-swatch__body"><strong>success</strong><br>#2F9E63</div></article>
+          </div>
+        </section>
+
+        <section id="tokens-typography" class="section ds-section" aria-labelledby="typography-title">
+          <div class="section__header">
+            <h2 id="typography-title">Типографика</h2>
+            <p class="section__lead">Системный гротеск, базовый размер от 16px, крупные заголовки для образовательного лендинга.</p>
+          </div>
+          <div class="stack">
+            <div class="card"><h1>H1: Учим английский понятно</h1></div>
+            <div class="card"><h2>H2: Материалы для твоего класса</h2></div>
+            <div class="card"><h3>H3: Тема урока</h3></div>
+            <p class="card">Базовый текст: домашние задания, тренировки и ответы на вопросы собраны в одном месте.</p>
+            <p class="card"><small>Малый текст используется только для вторичной информации и не заменяет важный контент.</small></p>
+          </div>
+        </section>
+
+        <section id="tokens-spacing" class="section ds-section" aria-labelledby="spacing-title">
+          <div class="section__header">
+            <h2 id="spacing-title">Отступы</h2>
+            <p class="section__lead">Шкала spacing 0-24 из `variables.json`, реализована CSS-переменными `--space-*`.</p>
+          </div>
+          <div class="demo-grid">
+            <div class="demo-token"><span>space-1</span><span>0.25rem</span></div>
+            <div class="demo-token"><span>space-2</span><span>0.5rem</span></div>
+            <div class="demo-token"><span>space-4</span><span>1rem</span></div>
+            <div class="demo-token"><span>space-6</span><span>1.5rem</span></div>
+            <div class="demo-token"><span>space-12</span><span>3rem</span></div>
+            <div class="demo-token"><span>space-24</span><span>6rem</span></div>
+          </div>
+        </section>
+
+        <section id="tokens-radius" class="section ds-section" aria-labelledby="radius-title">
+          <div class="section__header">
+            <h2 id="radius-title">Радиусы</h2>
+            <p class="section__lead">Карточки не превышают 16px, кнопки могут быть капсульными.</p>
+          </div>
+          <div class="cluster">
+            <div class="demo-radius radius--none" aria-label="none"></div>
+            <div class="demo-radius radius--sm" aria-label="sm"></div>
+            <div class="demo-radius radius--md" aria-label="md"></div>
+            <div class="demo-radius radius--lg" aria-label="lg"></div>
+            <div class="demo-radius radius--full" aria-label="full"></div>
+          </div>
+        </section>
+
+        <section id="tokens-shadows" class="section ds-section" aria-labelledby="shadows-title">
+          <div class="section__header">
+            <h2 id="shadows-title">Тени</h2>
+            <p class="section__lead">Лёгкие тени для отделения карточек, без heavy shadow.</p>
+          </div>
+          <div class="demo-grid demo-grid--three">
+            <div class="demo-shadow shadow--xs"></div>
+            <div class="demo-shadow shadow--sm"></div>
+            <div class="demo-shadow shadow--md"></div>
+            <div class="demo-shadow shadow--lg"></div>
+          </div>
+        </section>
+
+        <section id="tokens-transitions" class="section ds-section" aria-labelledby="transitions-title">
+          <div class="section__header">
+            <h2 id="transitions-title">Переходы</h2>
+            <p class="section__lead">Короткие спокойные transitions для hover/focus, без сложных анимаций.</p>
+          </div>
+          <div class="cluster">
+            <div class="transition-demo transition-demo--fast" aria-label="fast"></div>
+            <div class="transition-demo transition-demo--normal" aria-label="normal"></div>
+            <div class="transition-demo transition-demo--slow" aria-label="slow"></div>
+          </div>
+        </section>
+
+        <section id="common-buttons" class="section ds-section" aria-labelledby="buttons-title">
+          <div class="section__header">
+            <h2 id="buttons-title">Кнопки</h2>
+            <p class="section__lead">Типы из `common-elements.json`: primary, secondary, ghost, danger, link; размеры small, medium, large; состояния hover, active, disabled.</p>
+          </div>
+          <div class="cluster">
+            <button class="button button--primary" type="button">Primary</button>
+            <button class="button button--secondary" type="button">Secondary</button>
+            <button class="button button--ghost" type="button">Ghost</button>
+            <button class="button button--danger" type="button">Danger</button>
+            <button class="button button--link" type="button">Link button</button>
+            <button class="button button--primary button--small" type="button">Small</button>
+            <button class="button button--primary button--large" type="button">Large</button>
+            <button class="button button--primary" type="button" disabled>Disabled</button>
+          </div>
+        </section>
+
+        <section id="common-inputs" class="section ds-section" aria-labelledby="inputs-title">
+          <div class="section__header">
+            <h2 id="inputs-title">Поля ввода</h2>
+            <p class="section__lead">Inputs, select, checkbox, radio, toggle и sliders из `common-elements.json`.</p>
+          </div>
+          <form class="form card" action="#" method="post" novalidate>
+            <div class="form__row">
+              <div class="form__field">
+                <label class="form__label" for="demo-name">Имя ученика</label>
+                <input class="input" id="demo-name" name="name" type="text" autocomplete="name">
+              </div>
+              <div class="form__field">
+                <label class="form__label" for="demo-email">Email</label>
+                <input class="input" id="demo-email" name="email" type="email" autocomplete="email">
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="form__field">
+                <label class="form__label" for="demo-password">Пароль</label>
+                <input class="input" id="demo-password" name="password" type="password" autocomplete="new-password">
+              </div>
+              <div class="form__field">
+                <label class="form__label" for="demo-number">Номер класса</label>
+                <input class="input" id="demo-number" name="number" type="number" min="1" max="11">
+              </div>
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="demo-select">Тема</label>
+              <select class="select" id="demo-select" name="topic">
+                <option>Grammar</option>
+                <option>Vocabulary</option>
+                <option>Reading</option>
+              </select>
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="demo-message">Вопрос учителю</label>
+              <textarea class="textarea" id="demo-message" name="message"></textarea>
+              <span class="form__hint">Коротко опиши, что непонятно по теме.</span>
+            </div>
+            <div class="cluster">
+              <label class="control"><input class="control__box" type="checkbox" name="agree"> Нужен ответ</label>
+              <label class="control"><input class="control__box" type="radio" name="format" checked> Онлайн</label>
+              <label class="toggle"><input class="toggle__input" type="checkbox" name="notify"> Напомнить</label>
+            </div>
+            <label class="form__field" for="demo-range">
+              <span class="form__label">Сложность задания</span>
+              <input class="range" id="demo-range" type="range" min="1" max="5" value="3">
+            </label>
+          </form>
+        </section>
+
+        <section id="common-special-forms" class="section ds-section" aria-labelledby="special-forms-title">
+          <div class="section__header">
+            <h2 id="special-forms-title">Специальные элементы форм</h2>
+            <p class="section__lead">tags_input, counter_input, file_dropzone, color_picker_dots, size_badges.</p>
+          </div>
+          <div class="demo-grid">
+            <div class="card stack">
+              <h3>Tags input</h3>
+              <div class="tags"><span class="chip">Grammar</span><span class="chip">Past Simple</span><span class="chip">Homework</span></div>
+            </div>
+            <div class="card stack">
+              <h3>Counter input</h3>
+              <div class="cluster"><button class="button button--secondary button--small" type="button">−</button><span class="badge badge--lg">3</span><button class="button button--secondary button--small" type="button">+</button></div>
+            </div>
+            <div class="card stack">
+              <h3>File dropzone</h3>
+              <div class="file-dropzone">Перетащи PDF или изображение</div>
+            </div>
+            <div class="card stack">
+              <h3>Color dots / badges</h3>
+              <div class="cluster"><span class="badge badge--new">New</span><span class="badge badge--important">Important</span><span class="badge badge--success">Done</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="common-badges" class="section ds-section" aria-labelledby="badges-title">
+          <div class="section__header">
+            <h2 id="badges-title">Бейджи и чипы</h2>
+            <p class="section__lead">badge sm/md/lg, chip, counter_badge и продуктовые статусы.</p>
+          </div>
+          <div class="cluster">
+            <span class="badge badge--sm">sm</span>
+            <span class="badge">md</span>
+            <span class="badge badge--lg">lg</span>
+            <span class="badge badge--new">Новое</span>
+            <span class="badge badge--important">Важное</span>
+            <span class="badge badge--warning">Дедлайн</span>
+            <span class="chip">Чтение</span>
+            <span class="counter-badge">4</span>
+          </div>
+        </section>
+
+        <section id="common-icons" class="section ds-section" aria-labelledby="icons-title">
+          <div class="section__header">
+            <h2 id="icons-title">Иконки</h2>
+            <p class="section__lead">Размеры xs-xl. В прототипах используются простые текстовые символы как placeholder для SVG-иконок.</p>
+          </div>
+          <div class="cluster">
+            <span class="demo-icon icon--xs" aria-hidden="true">?</span>
+            <span class="demo-icon icon--sm" aria-hidden="true">A</span>
+            <span class="demo-icon icon--md" aria-hidden="true">✓</span>
+            <span class="demo-icon icon--lg" aria-hidden="true">!</span>
+            <span class="demo-icon icon--xl" aria-hidden="true">EN</span>
+          </div>
+        </section>
+
+        <section id="common-dividers" class="section ds-section" aria-labelledby="dividers-title">
+          <div class="section__header">
+            <h2 id="dividers-title">Разделители</h2>
+            <p class="section__lead">Horizontal, vertical и with_label.</p>
+          </div>
+          <div class="stack card">
+            <hr class="divider">
+            <div class="divider-label">или выбери класс ниже</div>
+          </div>
+        </section>
+
+        <section id="common-avatars" class="section ds-section" aria-labelledby="avatars-title">
+          <div class="section__header">
+            <h2 id="avatars-title">Аватары</h2>
+            <p class="section__lead">Размеры xs-xl, варианты initials/photo/icon.</p>
+          </div>
+          <div class="cluster">
+            <span class="avatar avatar--xs">A</span>
+            <span class="avatar avatar--sm">EN</span>
+            <span class="avatar avatar--md">5A</span>
+            <span class="avatar avatar--lg">T</span>
+            <span class="avatar avatar--xl">8Б</span>
+          </div>
+        </section>
+
+        <section id="common-tooltips" class="section ds-section" aria-labelledby="tooltips-title">
+          <div class="section__header">
+            <h2 id="tooltips-title">Тултипы</h2>
+            <p class="section__lead">Позиции из JSON: top, right, bottom, left. Демонстрация показывает top.</p>
+          </div>
+          <div class="card">
+            <span class="tooltip-demo">
+              <button class="button button--secondary" type="button">Наведи фокус</button>
+              <span class="tooltip-demo__bubble" role="tooltip">Подсказка для ученика</span>
+            </span>
+          </div>
+        </section>
+
+        <section id="common-modals" class="section ds-section" aria-labelledby="modals-title">
+          <div class="section__header">
+            <h2 id="modals-title">Модальные окна</h2>
+            <p class="section__lead">Размеры sm, md, lg, full; части: header, body, footer, close.</p>
+          </div>
+          <button class="button button--primary" type="button" data-modal="demo-modal">Открыть пример</button>
+        </section>
+
+        <section id="common-notifications" class="section ds-section" aria-labelledby="notifications-title">
+          <div class="section__header">
+            <h2 id="notifications-title">Уведомления</h2>
+            <p class="section__lead">Toast и alert: success, warning, danger, info.</p>
+          </div>
+          <div class="stack">
+            <div class="alert alert--success" role="status">Задание отправлено.</div>
+            <div class="alert alert--warning" role="status">Срок сдачи завтра.</div>
+            <div class="alert alert--danger" role="alert">Заполни обязательные поля.</div>
+            <div class="alert alert--info" role="status">Появились новые материалы.</div>
+          </div>
+        </section>
+
+        <section id="common-pagination" class="section ds-section" aria-labelledby="pagination-title">
+          <div class="section__header">
+            <h2 id="pagination-title">Пагинация</h2>
+            <p class="section__lead">Варианты: numeric, simple, load_more.</p>
+          </div>
+          <nav class="cluster" aria-label="Пагинация материалов">
+            <a class="button button--secondary button--small" href="#">Назад</a>
+            <a class="button button--primary button--small" href="#" aria-current="page">1</a>
+            <a class="button button--secondary button--small" href="#">2</a>
+            <a class="button button--secondary button--small" href="#">Вперёд</a>
+          </nav>
+        </section>
+
+        <section id="common-navigation" class="section ds-section" aria-labelledby="navigation-title">
+          <div class="section__header">
+            <h2 id="navigation-title">Навигация</h2>
+            <p class="section__lead">Breadcrumbs из `common-elements.json`.</p>
+          </div>
+          <nav aria-label="Хлебные крошки">
+            <ol class="breadcrumbs">
+              <li><a href="#">Главная</a></li>
+              <li>›</li>
+              <li><a href="#">Классы</a></li>
+              <li>›</li>
+              <li aria-current="page">7А</li>
+            </ol>
+          </nav>
+        </section>
+
+        <section id="common-tabs" class="section ds-section" aria-labelledby="tabs-title">
+          <div class="section__header">
+            <h2 id="tabs-title">Табы</h2>
+            <p class="section__lead">Рабочий пример с ARIA: variants, sizes, withIcons.</p>
+          </div>
+          <div class="card">
+            <div class="tabs" role="tablist" aria-label="Материалы класса" data-tabs>
+              <button class="tabs__button" id="tab-homework" type="button" role="tab" aria-selected="true" aria-controls="panel-homework">Домашка</button>
+              <button class="tabs__button" id="tab-practice" type="button" role="tab" aria-selected="false" aria-controls="panel-practice" tabindex="-1">Тренировка</button>
+              <button class="tabs__button" id="tab-questions" type="button" role="tab" aria-selected="false" aria-controls="panel-questions" tabindex="-1">Вопросы</button>
+            </div>
+            <div class="tabs__panel" id="panel-homework" role="tabpanel" aria-labelledby="tab-homework">Упражнение 5, страница 42.</div>
+            <div class="tabs__panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice" hidden>Повтори Past Simple и irregular verbs.</div>
+            <div class="tabs__panel" id="panel-questions" role="tabpanel" aria-labelledby="tab-questions" hidden>Нажми на вопрос, чтобы увидеть подсказку.</div>
+          </div>
+        </section>
+
+        <section id="common-accordion" class="section ds-section" aria-labelledby="accordion-title">
+          <div class="section__header">
+            <h2 id="accordion-title">Аккордеон</h2>
+            <p class="section__lead">Варианты accordion для FAQ и интерактивных вопросов.</p>
+          </div>
+          <div class="accordion">
+            <button class="accordion__button" type="button" aria-expanded="false" aria-controls="faq-1" data-accordion-button>Как найти домашнее задание?</button>
+            <div class="accordion__panel" id="faq-1" hidden>Выбери свой класс на главной странице и открой блок "Домашнее задание".</div>
+            <button class="accordion__button" type="button" aria-expanded="false" aria-controls="faq-2" data-accordion-button>Где задать вопрос?</button>
+            <div class="accordion__panel" id="faq-2" hidden>На странице класса есть форма вопроса учителю.</div>
+          </div>
+        </section>
+
+        <section id="common-skeletons" class="section ds-section" aria-labelledby="skeletons-title">
+          <div class="section__header">
+            <h2 id="skeletons-title">Скелетоны</h2>
+            <p class="section__lead">Варианты: text, card, avatar, image.</p>
+          </div>
+          <div class="card stack">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+          </div>
+        </section>
+
+        <section id="common-auth" class="section ds-section" aria-labelledby="auth-title">
+          <div class="section__header">
+            <h2 id="auth-title">Формы авторизации</h2>
+            <p class="section__lead">Login, register, forgot_password для будущей админской части.</p>
+          </div>
+          <form class="form card" action="#" method="post" novalidate>
+            <div class="form__field">
+              <label class="form__label" for="auth-email">Email учителя</label>
+              <input class="input" id="auth-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="form__field">
+              <label class="form__label" for="auth-password">Пароль</label>
+              <input class="input" id="auth-password" name="password" type="password" autocomplete="current-password" required>
+            </div>
+            <button class="button button--primary" type="submit">Войти</button>
+          </form>
+        </section>
+
+        <section id="app-components" class="section ds-section" aria-labelledby="app-components-title">
+          <div class="section__header">
+            <h2 id="app-components-title">Компоненты приложения</h2>
+            <p class="section__lead">По одному блоку на каждый ключ верхнего уровня из `.docs/design/system/app-components.json`.</p>
+          </div>
+          <div class="stack">
+            <article id="app-meta" class="card app-component">
+              <h3>meta</h3>
+              <p class="card__text">Тип: educational_teacher_landing. Описание: образовательный лендинг учителя английского с выбором класса и интерактивным общением.</p>
+            </article>
+
+            <article id="app-header" class="card app-component">
+              <h3>header</h3>
+              <nav class="nav" aria-label="Пример шапки">
+                <a class="nav__brand" href="#">Ms. English</a>
+                <ul class="nav__list">
+                  <li><a class="nav__link" href="#">О преподавателе</a></li>
+                  <li><a class="nav__link" href="#">Классы</a></li>
+                  <li><a class="nav__link" href="#">Материалы</a></li>
+                </ul>
+                <a class="button button--primary button--small" href="#">Выбрать класс</a>
+              </nav>
+              <ul class="app-component__parts">
+                <li class="app-component__part"><span class="app-component__key">parts</span> logo, navigation, primary_action, mobile_menu</li>
+              </ul>
+            </article>
+
+            <article id="app-hero" class="card app-component">
+              <h3>hero</h3>
+              <p class="card__text">Первый экран с фото учителя, headline, intro_text, primary_cta, secondary_cta и trust_points.</p>
+              <div class="card__actions"><a class="button button--primary" href="#">Выбрать свой класс</a><a class="button button--secondary" href="#">Допзанятия</a></div>
+            </article>
+
+            <article id="app-teacher-profile" class="card app-component">
+              <h3>teacher_profile</h3>
+              <div class="demo-grid">
+                <div class="hero__media"><div class="hero__placeholder">Портрет</div></div>
+                <div class="stack"><p><strong>Bio:</strong> учитель английского языка.</p><p><strong>Experience:</strong> понятные уроки и регулярная практика.</p><p><strong>Facts:</strong> домашка, материалы и вопросы в одном месте.</p></div>
+              </div>
+            </article>
+
+            <article id="app-class-selector" class="card app-component">
+              <h3>class_selector</h3>
+              <div class="card-grid">
+                <div class="card card--soft"><div class="card__header"><span class="card__title">5А</span><span class="badge badge--new">Новое</span></div><p class="card__text">Домашка и тренировка по теме School.</p><div class="card__actions"><a class="button button--primary button--small" href="#">Открыть</a></div></div>
+                <div class="card card--soft"><div class="card__header"><span class="card__title">7Б</span><span class="badge badge--warning">Дедлайн</span></div><p class="card__text">Past Simple, irregular verbs.</p><div class="card__actions"><a class="button button--primary button--small" href="#">Открыть</a></div></div>
+                <div class="card card--soft"><div class="card__header"><span class="card__title">9В</span><span class="badge badge--important">Важное</span></div><p class="card__text">Подготовка к контрольной.</p><div class="card__actions"><a class="button button--primary button--small" href="#">Открыть</a></div></div>
+              </div>
+            </article>
+
+            <article id="app-class-page" class="card app-component">
+              <h3>class_page</h3>
+              <div class="demo-grid">
+                <div class="card card--accent"><span class="badge badge--important">Домашка</span><h3>Workbook p. 42</h3><p class="card__text">Сдать до пятницы.</p></div>
+                <div class="card"><span class="badge">Материалы</span><h3>Past Simple</h3><p class="card__text">Правило, примеры и тренировка.</p></div>
+              </div>
+            </article>
+
+            <article id="app-material-card" class="card app-component">
+              <h3>material_card</h3>
+              <div class="card card--soft">
+                <div class="card__header"><span class="badge badge--new">Grammar</span><span class="card__text">10.06.2026</span></div>
+                <h3>Past Simple: irregular verbs</h3>
+                <p class="card__text">Таблица, примеры и короткая тренировка.</p>
+                <div class="card__actions"><a class="button button--secondary button--small" href="#">Открыть</a></div>
+              </div>
+            </article>
+
+            <article id="app-interactive-questions" class="card app-component">
+              <h3>interactive_questions</h3>
+              <div class="accordion">
+                <button class="accordion__button" type="button" aria-expanded="false" aria-controls="question-1" data-accordion-button>Когда использовать did?</button>
+                <div class="accordion__panel" id="question-1" hidden>В вопросах и отрицаниях в Past Simple.</div>
+              </div>
+              <ul class="app-component__parts"><li class="app-component__part"><span class="app-component__key">parts</span> question_buttons, answer_panel, topic_filter, ask_form, feedback_state</li></ul>
+            </article>
+
+            <article id="app-extra-lessons" class="card app-component">
+              <h3>extra_lessons</h3>
+              <div class="demo-grid">
+                <div class="stack"><span class="badge badge--success">Допзанятия</span><h3>Разобрать сложную тему</h3><p class="card__text">Индивидуально, мини-группа, подготовка к контрольной.</p></div>
+                <form class="form" action="#" method="post" novalidate><label class="form__field" for="extra-class"><span class="form__label">Класс</span><input class="input" id="extra-class" name="class" type="text"></label><button class="button button--primary" type="submit">Записаться</button></form>
+              </div>
+            </article>
+
+            <article id="app-quiz-or-practice" class="card app-component">
+              <h3>quiz_or_practice</h3>
+              <div class="stack">
+                <p><strong>Question:</strong> Choose the correct form: She ___ to school yesterday.</p>
+                <div class="cluster"><button class="button button--secondary" type="button">go</button><button class="button button--primary" type="button">went</button><button class="button button--secondary" type="button">goes</button></div>
+                <div class="alert alert--success" role="status">Правильно: went.</div>
+              </div>
+            </article>
+
+            <article id="app-calendar" class="card app-component">
+              <h3>calendar</h3>
+              <div class="table-wrap">
+                <table class="table">
+                  <caption>Ближайшие события</caption>
+                  <thead><tr><th scope="col">Дата</th><th scope="col">Тип</th><th scope="col">Класс</th></tr></thead>
+                  <tbody><tr><th scope="row">12.06</th><td>Дедлайн</td><td>7Б</td></tr><tr><th scope="row">14.06</th><td>Допзанятие</td><td>9В</td></tr></tbody>
+                </table>
+              </div>
+            </article>
+
+            <article id="app-forms" class="card app-component">
+              <h3>forms</h3>
+              <p class="card__text">name_field, class_field, contact_field, message_field, submit_button, validation_messages.</p>
+              <form class="form" action="#" method="post" novalidate>
+                <label class="form__field" for="question-name"><span class="form__label">Имя</span><input class="input" id="question-name" name="name" type="text"></label>
+                <label class="form__field" for="question-message"><span class="form__label">Вопрос</span><textarea class="textarea" id="question-message" name="message"></textarea></label>
+                <button class="button button--primary" type="submit">Отправить</button>
+              </form>
+            </article>
+
+            <article id="app-footer" class="card app-component">
+              <h3>footer</h3>
+              <footer class="nav">
+                <p class="card__text">Материалы и задания по английскому языку.</p>
+                <nav aria-label="Ссылки футера"><ul class="nav__list"><li><a class="nav__link" href="#">Классы</a></li><li><a class="nav__link" href="#">Контакты</a></li></ul></nav>
+              </footer>
+            </article>
+
+            <article id="app-empty-states" class="card app-component">
+              <h3>empty_states</h3>
+              <div class="alert alert--info" role="status">Материалы пока не добавлены.</div>
+              <ul class="app-component__parts"><li class="app-component__part"><span class="app-component__key">variants</span> Материалы пока не добавлены; Домашнее задание появится позже; Вопросов по этой теме пока нет.</li></ul>
+            </article>
+
+            <article id="app-status-badges" class="card app-component">
+              <h3>status_badges</h3>
+              <div class="cluster">
+                <span class="badge badge--new">Новое</span>
+                <span class="badge badge--important">Важное</span>
+                <span class="badge">Повторение</span>
+                <span class="badge badge--warning">Контрольная</span>
+                <span class="badge badge--warning">Дедлайн</span>
+                <span class="badge badge--success">Допзанятие</span>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <dialog class="modal" id="demo-modal" aria-labelledby="demo-modal-title" data-modal-dialog>
+    <div class="modal__content">
+      <div class="modal__header">
+        <h2 class="modal__title" id="demo-modal-title">Заявка на допзанятие</h2>
+        <button class="modal__close" type="button" aria-label="Закрыть окно" data-modal-close>×</button>
+      </div>
+      <form class="form" action="#" method="post" novalidate>
+        <label class="form__field" for="modal-name">
+          <span class="form__label">Имя ученика</span>
+          <input class="input" id="modal-name" name="name" type="text" autocomplete="name" data-modal-focus>
+        </label>
+        <label class="form__field" for="modal-class">
+          <span class="form__label">Класс</span>
+          <input class="input" id="modal-class" name="class" type="text">
+        </label>
+        <button class="button button--primary" type="submit">Отправить</button>
+      </form>
+    </div>
+  </dialog>
+
+  <script type="module" src="../../assets/js/main.js"></script>
+</body>
+</html>

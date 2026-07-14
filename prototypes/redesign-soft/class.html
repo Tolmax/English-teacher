@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1 класс — English Teacher</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html">English Teacher</a>
+    <button class="menu-button" type="button" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="page">
+    <section class="page-hero">
+      <div>
+        <p class="eyebrow">Страница класса</p>
+        <h1>1 класс: материалы и задания</h1>
+        <p class="hero__lead">Здесь только актуальная информация для твоего класса: ближайшие уроки, домашка, тест и вопрос учителю.</p>
+      </div>
+      <img class="page-hero__mascot" src="../../assets/img/paddington-hello.png" alt="Паддингтон приветствует учеников">
+    </section>
+
+    <section class="page-grid">
+      <article class="soft-section soft-section--wide">
+        <p class="panel__label">Два следующих урока</p>
+        <div class="event-list">
+          <div class="event-row">
+            <time>23.06 · 09:00</time>
+            <strong>Урок 1</strong>
+            <span>Animals and simple sentences</span>
+          </div>
+          <div class="event-row">
+            <time>30.06 · 09:00</time>
+            <strong>Урок 1</strong>
+            <span>Повторение слов и короткие ответы</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="soft-section">
+        <p class="panel__label">Домашнее задание</p>
+        <h2>Названия животных</h2>
+        <p>Выучи 10 слов и составь 5 коротких предложений.</p>
+        <a class="button-link" href="./material.html">Открыть материал</a>
+      </article>
+
+      <article class="soft-section">
+        <p class="panel__label">Пройти тест</p>
+        <h2>Тест</h2>
+        <p>10 вопросов. Исправить ответ после выбора нельзя.</p>
+        <a class="button-link" href="./test.html">Начать</a>
+      </article>
+
+      <article class="soft-section soft-section--wide">
+        <p class="panel__label">Вопрос учителю</p>
+        <form class="soft-form" action="#">
+          <label>
+            Имя
+            <input type="text" placeholder="Например, Маша">
+          </label>
+          <label>
+            Вопрос
+            <textarea rows="4" placeholder="Что нужно повторить?"></textarea>
+          </label>
+          <button class="class-picker__button" type="button">Отправить вопрос</button>
+        </form>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

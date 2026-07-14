@@ -1,0 +1,81 @@
+.ai-test {
+  display: grid;
+  gap: 1rem;
+}
+
+.ai-test__question {
+  display: grid;
+  gap: 0.875rem;
+  padding: 1rem;
+  border: 1px solid rgba(54, 99, 191, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.ai-test__question legend {
+  padding: 0 0.35rem;
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.ai-test__answers {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.ai-test__option {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(54, 99, 191, 0.16);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.68);
+  cursor: pointer;
+}
+
+.ai-test__option span:first-of-type {
+  flex: 1;
+}
+
+.ai-test__option--selected {
+  border-color: rgba(54, 99, 191, 0.42);
+  background: rgba(238, 244, 255, 0.86);
+}
+
+.ai-test__option--correct {
+  border-color: rgba(47, 128, 94, 0.55);
+  background: rgba(229, 247, 238, 0.88);
+}
+
+.ai-test__option--wrong {
+  border-color: rgba(214, 73, 73, 0.45);
+  background: rgba(255, 236, 232, 0.88);
+}
+
+.ai-test__option--locked {
+  cursor: default;
+}
+
+.ai-test__option--locked:not(.ai-test__option--selected) {
+  opacity: 0.62;
+}
+
+.ai-test__feedback {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.ai-test__option--correct .ai-test__feedback {
+  color: #20724f;
+}
+
+.ai-test__option--wrong .ai-test__feedback {
+  color: #b83838;
+}
+
+.ai-test__result {
+  font-weight: 700;
+}

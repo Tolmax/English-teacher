@@ -1,0 +1,109 @@
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  max-width: 100%;
+}
+
+body {
+  position: relative;
+  min-width: 320px;
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--line-base);
+  letter-spacing: var(--letter-normal);
+  background: #f8fbff;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(248, 251, 255, 0.58), rgba(248, 251, 255, 0.68)),
+    url("../../img/teacher-full-bg.png") center center / cover no-repeat;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(248, 251, 255, 0.12);
+}
+
+body.is-modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 560px) {
+  body::before {
+    background:
+      linear-gradient(rgba(248, 251, 255, 0.58), rgba(248, 251, 255, 0.68)),
+      url("../../img/teacher-full-bg-mobile.png") center top / cover no-repeat;
+  }
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+  overflow-wrap: anywhere;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: var(--line-tight);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, var(--text-4xl));
+}
+
+h2 {
+  font-size: clamp(1.625rem, 3vw, var(--text-3xl));
+}
+
+h3 {
+  font-size: var(--text-xl);
+}
+
+p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(243, 91, 99, 0.42);
+  outline-offset: 3px;
+}

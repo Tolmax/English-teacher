@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Teacher - новый прототип</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="English Teacher">
+      <span class="brand__mark">ET</span>
+      <span class="brand__text">English Teacher</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="#classes">Классы</a>
+      <a href="#today">Задания</a>
+      <a href="#help">Помощь</a>
+    </nav>
+    <button class="teacher-login" type="button">Вход учителя</button>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <p class="eyebrow">English lessons, homework and tests in one calm place</p>
+        <h1 id="hero-title">Английский без суеты: уроки, задания и тесты для каждого класса</h1>
+        <p class="hero__lead">Ученику не нужно искать сообщения в чатах. Он выбирает свой класс и сразу видит ближайшие уроки, домашку, тест и возможность задать вопрос.</p>
+
+        <div class="class-picker" id="classes">
+          <button class="class-picker__button" type="button">Найти свой класс</button>
+          <div class="class-picker__list" aria-label="Выбор класса">
+            <a href="#">1 класс</a>
+            <a href="#">5 класс</a>
+            <a href="#">6 класс</a>
+            <a href="#">7 класс</a>
+            <a href="#">8 класс</a>
+            <a href="#">10 класс</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__visual" aria-label="Фото учителя">
+        <div class="teacher-card">
+          <img class="teacher-card__photo" src="../../assets/img/hero-photo.png" alt="Учитель английского">
+          <div class="teacher-card__note">
+            <strong>Teacher’s corner</strong>
+            <span>новые задания после урока</span>
+          </div>
+        </div>
+        <img class="hero__bear" src="../../assets/img/paddington-hello.png" alt="">
+      </div>
+    </section>
+
+    <section class="today" id="today" aria-labelledby="today-title">
+      <div class="section-heading">
+        <p class="eyebrow">Для ученика</p>
+        <h2 id="today-title">Что важно сегодня</h2>
+      </div>
+
+      <div class="student-grid">
+        <article class="student-card student-card--wide">
+          <span class="student-card__label">Следующие уроки</span>
+          <h3>Только 2 ближайших события</h3>
+          <p>На странице класса показываем не весь календарь, а то, что действительно нужно сейчас.</p>
+          <div class="mini-schedule">
+            <span>30.06 · Урок 1</span>
+            <span>03.07 · Урок 4</span>
+          </div>
+        </article>
+
+        <article class="student-card">
+          <span class="student-card__label">Домашка</span>
+          <h3>Сдать до урока</h3>
+          <p>Короткое задание, файл или ссылка отображаются первой карточкой.</p>
+        </article>
+
+        <article class="student-card">
+          <span class="student-card__label">Тест</span>
+          <h3>10 вопросов</h3>
+          <p>Ученик отвечает один раз, результат уходит учителю.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="teacher-flow" aria-labelledby="flow-title">
+      <div class="teacher-flow__image">
+        <img src="../../assets/img/paddington-reading.png" alt="">
+      </div>
+      <div class="teacher-flow__content">
+        <p class="eyebrow">Для учителя</p>
+        <h2 id="flow-title">Админка должна помогать, а не шуметь</h2>
+        <div class="flow-list">
+          <div>
+            <span>01</span>
+            <p>Календарь ведет расписание и повторяющиеся уроки.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <p>ИИ-тесты создаются по шаблону и хранятся отдельно.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <p>Вопросы и заявки показываются строгим списком.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="help-band" id="help" aria-labelledby="help-title">
+      <div>
+        <p class="eyebrow">Допзанятия</p>
+        <h2 id="help-title">Нужна помощь?</h2>
+        <p>Форма должна быть короткой: имя, класс, тема и удобный формат занятия.</p>
+      </div>
+      <a class="help-band__button" href="#">Оставить заявку</a>
+    </section>
+  </main>
+</body>
+</html>

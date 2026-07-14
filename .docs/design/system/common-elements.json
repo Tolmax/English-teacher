@@ -1,0 +1,299 @@
+{
+	"common_elements": {
+		"headings": {
+			"description": "",
+			"variants": []
+		},
+
+		"text": {
+			"description": "",
+			"variants": []
+		},
+
+		"buttons": {
+			"description": "",
+			"types": {
+				"primary": {
+					"description": "",
+					"background": "",
+					"text": "",
+					"border": "",
+					"hover": ""
+				},
+				"secondary": {
+					"description": "",
+					"background": "",
+					"text": "",
+					"border": "",
+					"hover": ""
+				},
+				"ghost": {
+					"description": "",
+					"background": "",
+					"text": "",
+					"border": "",
+					"hover": ""
+				},
+				"danger": {
+					"description": "",
+					"background": "",
+					"text": "",
+					"border": ""
+				},
+				"link": {
+					"description": "",
+					"background": "",
+					"text": "",
+					"border": "",
+					"textDecoration": ""
+				}
+			},
+			"sizes": {
+				"small": {
+					"height": "",
+					"padding": "",
+					"fontSize": "",
+					"borderRadius": "",
+					"iconSize": ""
+				},
+				"medium": {
+					"height": "",
+					"padding": "",
+					"fontSize": "",
+					"borderRadius": "",
+					"iconSize": ""
+				},
+				"large": {
+					"height": "",
+					"padding": "",
+					"fontSize": "",
+					"borderRadius": "",
+					"iconSize": ""
+				}
+			},
+			"states": [],
+			"modifiers": []
+		},
+
+		"form_elements": {
+			"inputs": {
+				"text": {
+					"description": "",
+					"height": "",
+					"borderRadius": ""
+				},
+				"email": {
+					"description": "",
+					"height": "",
+					"borderRadius": ""
+				},
+				"password": {
+					"description": "",
+					"height": "",
+					"borderRadius": ""
+				},
+				"number": {
+					"description": "",
+					"height": "",
+					"borderRadius": ""
+				},
+				"textarea": {
+					"description": "",
+					"minHeight": "",
+					"borderRadius": ""
+				}
+			},
+			"select": {
+				"basic": { "description": "" },
+				"search_suggestion": { "description": "" },
+				"multi_select": { "description": "" }
+			},
+			"controls": {
+				"checkbox": {
+					"description": "",
+					"size": ""
+				},
+				"radio": { "description": "", "size": "" },
+				"toggle": {
+					"description": "",
+					"width": "",
+					"height": ""
+				}
+			},
+			"sliders": {
+				"single_range": { "description": "" },
+				"double_range": { "description": "" }
+			},
+			"special": {
+				"tags_input": {
+					"description": ""
+				},
+				"counter_input": {
+					"description": "",
+					"structure": {
+						"value_display": "",
+						"decrement_button": "",
+						"increment_button": ""
+					},
+					"behavior": {
+						"increment": "",
+						"decrement": "",
+						"manual_input": "",
+						"limits": ""
+					},
+					"properties": {
+						"value": "",
+						"step": "",
+						"min": "",
+						"max": "",
+						"disabled": ""
+					}
+				},
+				"file_dropzone": { "description": "" },
+				"color_picker_dots": { "description": "" },
+				"size_badges": { "description": "" }
+			},
+			"states": [],
+			"label": { "size": "", "weight": null, "marginBottom": "" },
+			"helper_text": {
+				"size": "",
+				"color": "",
+				"marginTop": ""
+			},
+			"error_text": {
+				"size": "",
+				"color": "",
+				"marginTop": ""
+			}
+		},
+
+		"badges_chips": {
+			"badge": {
+				"description": "",
+				"sizes": {
+					"sm": { "height": "", "fontSize": "", "padding": "" },
+					"md": { "height": "", "fontSize": "", "padding": "" },
+					"lg": { "height": "", "fontSize": "", "padding": "" }
+				},
+				"variants": []
+			},
+			"chip": {
+				"description": "",
+				"height": "",
+				"fontSize": "",
+				"variants": [],
+				"withIcon": null
+			},
+			"counter_badge": {
+				"description": "",
+				"size": "",
+				"position": ""
+			}
+		},
+
+		"icons": {
+			"library": "",
+			"sizes": {
+				"xs": "",
+				"sm": "",
+				"md": "",
+				"lg": "",
+				"xl": ""
+			}
+		},
+
+		"divider": {
+			"horizontal": { "height": "", "color": "" },
+			"vertical": { "width": "", "color": "" },
+			"with_label": { "description": "" }
+		},
+
+		"avatar": {
+			"description": "",
+			"sizes": {
+				"xs": "",
+				"sm": "",
+				"md": "",
+				"lg": "",
+				"xl": ""
+			},
+			"variants": []
+		},
+
+		"tooltip": {
+			"description": "",
+			"maxWidth": "",
+			"positions": []
+		},
+
+		"modal": {
+			"sizes": {
+				"sm": "",
+				"md": "",
+				"lg": "",
+				"full": ""
+			},
+			"parts": []
+		},
+
+		"notification": {
+			"toast": {
+				"description": "",
+				"variants": [],
+				"position": "",
+				"duration": ""
+			},
+			"alert": {
+				"description": "",
+				"variants": [],
+				"dismissible": null
+			}
+		},
+
+		"pagination": {
+			"description": "",
+			"variants": []
+		},
+
+		"breadcrumbs": {
+			"description": "",
+			"separator": "",
+			"maxItems": null,
+			"collapsible": null
+		},
+
+		"tabs": {
+			"variants": [],
+			"sizes": [],
+			"withIcons": null
+		},
+
+		"accordion": {
+			"description": "",
+			"variants": [],
+			"withIcon": null
+		},
+
+		"skeleton": {
+			"description": "",
+			"variants": []
+		},
+
+		"auth_forms": {
+			"login": {
+				"fields": [],
+				"features": [],
+				"submitButton": ""
+			},
+			"register": {
+				"fields": [],
+				"features": [],
+				"submitButton": ""
+			},
+			"forgot_password": {
+				"fields": [],
+				"submitButton": ""
+			}
+		}
+	}
+}

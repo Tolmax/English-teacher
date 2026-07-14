@@ -1,0 +1,314 @@
+.public-site .site-header,
+.public-site .site-footer {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.public-site {
+  --public-heading: #526d9d;
+  --public-text: #43536f;
+  --public-muted: #707c90;
+  --public-blue: #4e72ad;
+  overflow-x: clip;
+  color: var(--public-text);
+}
+
+.public-site h1,
+.public-site h2,
+.public-site h3,
+.public-site h4,
+.public-site .card__title,
+.public-site .class-title,
+.public-site .calendar-card__body h3 {
+  color: var(--public-heading);
+}
+
+.public-site .hero__text,
+.public-site .page-hero__text,
+.public-site .section__lead,
+.public-site .card__text,
+.public-site .calendar-card__date small {
+  color: var(--public-muted);
+}
+
+.public-site .section--soft,
+.public-site .section,
+.public-site .card,
+.public-site .table-wrapper,
+.public-site .accordion,
+.public-site .resource-list,
+.public-site .material-body,
+.public-site .question-card,
+.public-site .stat-card,
+.public-site .login-card,
+.public-site .format-picker__badge,
+.public-site .nav__link,
+.public-site .material-item,
+.public-site .class-page-item,
+.public-site .quiz__answer,
+.public-site .calendar-card,
+.public-site .calendar-card__date,
+.public-site .accordion__panel {
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.public-site .form input,
+.public-site .form textarea,
+.public-site .form select {
+  border: 0;
+  border-bottom: 2px solid rgba(78, 114, 173, 0.32);
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.public-site .card--soft,
+.public-site .badge,
+.public-site .accordion__button,
+.public-site .table th,
+.public-site .format-picker__badge:hover,
+.public-site .class-picker__link:hover,
+.public-site .nav__link:hover {
+  background-color: transparent;
+}
+
+.public-site .card--accent,
+.public-site .alert--danger,
+.public-site .badge--danger {
+  background-color: transparent;
+}
+
+.public-site .alert,
+.public-site .alert--info,
+.public-site .badge--new,
+.public-site .badge--warning {
+  background-color: transparent;
+}
+
+.public-site .alert--success,
+.public-site .badge--success {
+  background-color: transparent;
+}
+
+.public-site .button--primary,
+.public-site .format-picker__input:checked + .format-picker__badge {
+  border-color: transparent;
+  background-color: rgba(78, 114, 173, 0.74);
+  box-shadow: none;
+}
+
+.public-site .button--primary:hover {
+  background-color: rgba(78, 114, 173, 0.84);
+}
+
+.public-site .button--secondary {
+  border-color: transparent;
+  background-color: rgba(255, 252, 246, 0.28);
+  box-shadow: none;
+}
+
+.public-site .button--secondary:hover {
+  background-color: rgba(255, 252, 246, 0.42);
+}
+
+.public-site .button--danger {
+  background-color: rgba(210, 58, 70, 0.68);
+}
+
+.public-site .button {
+  min-width: max-content;
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: nowrap;
+}
+
+.public-site .form .button {
+  width: min(22rem, 100%);
+  justify-self: center;
+}
+
+.public-site .page-hero__media {
+  border-color: transparent;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.public-site .page-hero__content {
+  min-height: auto;
+  padding-bottom: 0;
+}
+
+.public-site .page-hero__content::before,
+.public-site .page-hero__content::after {
+  content: none;
+}
+
+.public-site .page-hero--extra-lessons .page-hero__text {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: url("../../img/paddington-flying.png") center center / contain no-repeat;
+  box-shadow: none;
+}
+
+.public-site .page-hero__media {
+  background: transparent;
+}
+
+.public-site .quiz__answer--selected {
+  background-color: transparent;
+}
+
+.public-site .hero__actions {
+  align-items: flex-start;
+}
+
+.public-site .hero__actions .class-picker[open] {
+  margin-bottom: var(--space-6);
+}
+
+.public-site .hero__actions .class-picker__menu {
+  position: static;
+  width: min(21rem, 100%);
+  margin-top: var(--space-3);
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: #fff4e8;
+  box-shadow: none;
+}
+
+.public-site .hero__actions .class-picker__link {
+  color: var(--color-text);
+  background-color: rgba(255, 255, 255, 0.42);
+}
+
+.public-site .hero__actions .class-picker__link:hover {
+  color: var(--public-heading);
+  background-color: rgba(255, 255, 255, 0.64);
+}
+
+.public-site .hero__actions .class-picker__meta {
+  color: var(--public-muted);
+}
+
+.public-site .hero__media {
+  background: transparent;
+  box-shadow: none;
+}
+
+.public-site .hero__photo {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.public-site .teacher-login-dialog__content {
+  background:
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08), rgba(248, 251, 255, 0.88) 64%, rgba(248, 251, 255, 0.94)),
+    url("../../img/paddington-book.png") center top / contain no-repeat,
+    rgba(248, 251, 255, 0.9);
+}
+
+.public-site #extra-lessons.card--accent {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "title"
+    "mascot"
+    "action";
+  gap: var(--space-4);
+  justify-items: center;
+  align-content: start;
+  min-height: 0;
+  text-align: center;
+}
+
+.public-site #extra-lessons.card--accent::before {
+  position: static;
+  grid-area: mascot;
+  justify-self: center;
+  width: min(13rem, 72vw);
+  aspect-ratio: 1 / 1;
+  transform: none;
+}
+
+.public-site #extra-lessons.card--accent .card__actions {
+  grid-area: action;
+  width: min(18rem, 100%);
+  margin-top: 0;
+  justify-self: center;
+}
+
+.public-site #extra-lessons.card--accent h2 {
+  grid-area: title;
+}
+
+.public-site #extra-lessons.card--accent .button {
+  width: 100%;
+}
+
+.public-site .page-hero--extra-lessons .card--accent {
+  display: grid;
+  grid-template-areas:
+    "title"
+    "mascot"
+    "notice"
+    "form";
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.public-site .page-hero--extra-lessons .card--accent::before {
+  position: static;
+  grid-area: mascot;
+  justify-self: center;
+  width: min(13rem, 72vw);
+  aspect-ratio: 1 / 1;
+  transform: none;
+}
+
+.public-site .page-hero--extra-lessons .card--accent h2 {
+  grid-area: title;
+}
+
+.public-site .page-hero--extra-lessons .card--accent .alert {
+  grid-area: notice;
+}
+
+.public-site .page-hero--extra-lessons .card--accent .form {
+  grid-area: form;
+}
+
+@media (max-width: 900px) {
+  .public-site .hero__media {
+    width: min(100%, 27.5rem);
+    aspect-ratio: auto;
+    min-height: clamp(27rem, 62vw, 35rem);
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .public-site .hero__photo {
+    position: static;
+    width: 100%;
+    height: clamp(27rem, 62vw, 35rem);
+    object-fit: contain;
+  }
+}
+
+@media (max-width: 560px) {
+  .public-site .hero__media {
+    min-height: clamp(24rem, 118vw, 32.5rem);
+  }
+
+  .public-site .hero__photo {
+    height: clamp(24rem, 118vw, 32.5rem);
+  }
+
+  .public-site #extra-lessons.card--accent::before {
+    width: min(13rem, 68vw);
+  }
+}

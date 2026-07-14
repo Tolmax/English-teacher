@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Интерактивная тренировка по английскому языку с отправкой результата учителю.">
+  <title>Тренировка — English Teacher</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="nav__brand" href="home.html">English Teacher</a>
+      <nav aria-label="Основная навигация"><ul class="nav__list"><li><a class="nav__link" href="class.html">7Б класс</a></li><li><a class="nav__link" href="extra-lessons.html">Допзанятия</a></li></ul></nav>
+    </div>
+  </header>
+  <main>
+    <section class="page-hero" aria-labelledby="practice-title">
+      <div class="container page-hero__inner">
+        <div class="page-hero__content">
+          <h1 id="practice-title">Мини-тест: Past Simple</h1>
+          <p class="page-hero__text">Ответь на вопросы, посмотри результат и отправь его учителю. В админке появится запись о выполнении.</p>
+        </div>
+        <div class="page-hero__media">66% выполнено</div>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="quiz-title">
+      <div class="container lesson-layout">
+        <article class="card quiz">
+          <h2 id="quiz-title">Вопрос 2 из 3</h2>
+          <div class="quiz__progress" aria-label="Прогресс выполнения"><div class="quiz__progress-bar"></div></div>
+          <p><strong>Choose the correct form:</strong> She ___ to school yesterday.</p>
+          <div class="quiz__answers">
+            <button class="quiz__answer" type="button">go</button>
+            <button class="quiz__answer quiz__answer--selected" type="button">went</button>
+            <button class="quiz__answer" type="button">goes</button>
+          </div>
+          <div class="alert alert--success" role="status">Верно: в Past Simple используем went.</div>
+          <div class="card__actions"><button class="button button--secondary" type="button">Следующий вопрос</button><button class="button button--primary" type="button" data-modal="submit-result">Отправить учителю</button></div>
+        </article>
+        <aside class="card">
+          <h2>Что увидит учитель</h2>
+          <ul class="feature-list">
+            <li class="feature-list__item"><span class="feature-list__marker">1</span><span>Имя ученика и класс.</span></li>
+            <li class="feature-list__item"><span class="feature-list__marker">2</span><span>Дата и время отправки.</span></li>
+            <li class="feature-list__item"><span class="feature-list__marker">3</span><span>Результат и ошибки.</span></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <dialog class="modal" id="submit-result" aria-labelledby="submit-result-title" data-modal-dialog>
+    <div class="modal__content">
+      <div class="modal__header"><h2 class="modal__title" id="submit-result-title">Отправить результат</h2><button class="modal__close" type="button" aria-label="Закрыть окно" data-modal-close>×</button></div>
+      <form class="form" action="#" method="post" novalidate>
+        <label class="form__field" for="submit-name"><span class="form__label">Имя и фамилия</span><input class="input" id="submit-name" name="name" type="text" data-modal-focus></label>
+        <label class="form__field" for="submit-class"><span class="form__label">Класс</span><input class="input" id="submit-class" name="class" type="text" value="7Б"></label>
+        <button class="button button--primary" type="submit">Отправить</button>
+      </form>
+    </div>
+  </dialog>
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

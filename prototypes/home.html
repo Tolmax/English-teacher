@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Главная страница учителя английского языка с выбором класса, материалами и дополнительными занятиями.">
+  <title>Главная — English Teacher</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="nav__brand" href="home.html">English Teacher</a>
+      <nav aria-label="Основная навигация">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#classes">Классы</a></li>
+          <li><a class="nav__link" href="#questions">Вопросы</a></li>
+          <li><a class="nav__link" href="extra-lessons.html">Допзанятия</a></li>
+        </ul>
+      </nav>
+      <a class="button button--primary button--small" href="#classes">Выбрать класс</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="home-title">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="hero__eyebrow">Английский без хаоса</p>
+          <h1 id="home-title">Материалы, домашка и вопросы по английскому в одном месте</h1>
+          <p class="hero__text">Выбери свой класс, посмотри актуальное задание, потренируй тему урока и задай вопрос учителю прямо на сайте.</p>
+          <div class="hero__actions">
+            <a class="button button--primary button--large" href="#classes">Найти свой класс</a>
+            <a class="button button--secondary button--large" href="extra-lessons.html">Нужна помощь с темой</a>
+          </div>
+          <div class="cluster" aria-label="Преимущества">
+            <span class="badge badge--new">Домашка</span>
+            <span class="badge">Тренировки</span>
+            <span class="badge badge--success">Ответы учителю</span>
+          </div>
+        </div>
+        <div class="hero__media" role="img" aria-label="Фото учителя английского">
+          <div class="hero__placeholder">Фото учителя</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="classes" aria-labelledby="classes-title">
+      <div class="container">
+        <div class="section__header">
+          <h2 id="classes-title">Выбери свой класс</h2>
+          <p class="section__lead">На странице класса лежат домашние задания, материалы, объявления и тренировки по темам.</p>
+        </div>
+        <div class="card-grid">
+          <article class="card card--soft">
+            <div class="card__header"><h3 class="card__title">5А</h3><span class="badge badge--new">Новое</span></div>
+            <p class="card__text">Тема недели: School subjects. Домашка уже опубликована.</p>
+            <div class="card__actions"><a class="button button--primary" href="class.html">Открыть класс</a></div>
+          </article>
+          <article class="card card--soft">
+            <div class="card__header"><h3 class="card__title">7Б</h3><span class="badge badge--warning">Дедлайн</span></div>
+            <p class="card__text">Past Simple, irregular verbs и мини-тест на сайте.</p>
+            <div class="card__actions"><a class="button button--primary" href="class.html">Открыть класс</a></div>
+          </article>
+          <article class="card card--soft">
+            <div class="card__header"><h3 class="card__title">9В</h3><span class="badge badge--important">Контрольная</span></div>
+            <p class="card__text">Повторение грамматики и подготовка к контрольной работе.</p>
+            <div class="card__actions"><a class="button button--primary" href="class.html">Открыть класс</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section__header">
+          <h2 id="features-title">Что можно сделать на сайте</h2>
+          <p class="section__lead">Главная задача сайта — быстро довести ученика до нужного материала и показать учителю выполненные задания.</p>
+        </div>
+        <div class="demo-grid demo-grid--three">
+          <article class="card"><h3>Посмотреть домашку</h3><p class="card__text">Актуальное задание, дата сдачи и материалы к уроку.</p></article>
+          <article class="card"><h3>Пройти тренировку</h3><p class="card__text">Мини-тесты по грамматике, лексике и чтению.</p></article>
+          <article class="card"><h3>Отправить результат</h3><p class="card__text">После выполнения учитель видит ответ в админке.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="questions" aria-labelledby="questions-title">
+      <div class="container lesson-layout">
+        <div>
+          <div class="section__header">
+            <h2 id="questions-title">Частые вопросы</h2>
+            <p class="section__lead">Короткие ответы помогают не ждать личного сообщения по простым вопросам.</p>
+          </div>
+          <div class="accordion">
+            <button class="accordion__button" type="button" aria-expanded="false" aria-controls="home-faq-1" data-accordion-button>Где найти домашнее задание?</button>
+            <div class="accordion__panel" id="home-faq-1" hidden>Выбери свой класс и открой блок "Актуальная домашка".</div>
+            <button class="accordion__button" type="button" aria-expanded="false" aria-controls="home-faq-2" data-accordion-button>Как учитель узнает, что я выполнил задание?</button>
+            <div class="accordion__panel" id="home-faq-2" hidden>После мини-теста или отправки ответа нажми "Отправить учителю". Результат появится в админке.</div>
+          </div>
+        </div>
+        <aside class="card card--accent">
+          <h2>Нужна доппомощь?</h2>
+          <p class="card__text">Можно разобрать сложную тему индивидуально или в мини-группе.</p>
+          <div class="card__actions"><a class="button button--primary" href="extra-lessons.html">Записаться</a></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container nav">
+      <p>English Teacher — материалы и задания по английскому языку.</p>
+      <a class="button button--secondary button--small" href="admin/login.html">Вход учителя</a>
+    </div>
+  </footer>
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

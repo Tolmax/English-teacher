@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Допзанятия — English Teacher</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html">English Teacher</a>
+    <button class="menu-button" type="button" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="page">
+    <section class="page-hero">
+      <div>
+        <p class="eyebrow">Дополнительная помощь</p>
+        <h1>Нужна помощь?</h1>
+        <p class="hero__lead">Выбери тему, напиши вопрос, и учитель увидит заявку в админке.</p>
+      </div>
+      <img class="page-hero__mascot" src="../../assets/img/paddington-reading.png" alt="Паддингтон читает книгу">
+    </section>
+
+    <section class="page-grid">
+      <article class="soft-section">
+        <p class="panel__label">Форматы</p>
+        <h2>Что можно разобрать</h2>
+        <div class="tag-list">
+          <span>Домашка</span>
+          <span>Тест</span>
+          <span>Грамматика</span>
+          <span>Слова</span>
+        </div>
+      </article>
+
+      <article class="soft-section soft-section--wide">
+        <p class="panel__label">Заявка</p>
+        <form class="soft-form" action="#">
+          <label>
+            Имя ученика
+            <input type="text" placeholder="Например, Артём">
+          </label>
+          <label>
+            Класс
+            <select>
+              <option>1 класс</option>
+              <option>5 класс</option>
+              <option>6 класс</option>
+              <option>7 класс</option>
+              <option>8 класс</option>
+              <option>10 класс</option>
+            </select>
+          </label>
+          <label>
+            Тема
+            <textarea rows="5" placeholder="Например, Present Perfect или домашка по словам"></textarea>
+          </label>
+          <button class="class-picker__button" type="button">Отправить заявку</button>
+        </form>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

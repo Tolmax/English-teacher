@@ -1,0 +1,104 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 2.75rem;
+  gap: var(--space-2);
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  font-weight: 700;
+  line-height: 1;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-fast);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:disabled,
+.button.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.button--primary {
+  color: var(--color-text-inverse);
+  background: var(--color-accent);
+  box-shadow: 0 10px 20px rgba(243, 91, 99, 0.25);
+}
+
+.button--primary:hover {
+  color: var(--color-text-inverse);
+  background: var(--color-accent-hover);
+}
+
+.button--secondary {
+  color: var(--color-primary);
+  background: var(--color-secondary);
+  border-color: var(--color-border);
+}
+
+.button--secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.button--ghost {
+  color: var(--color-primary);
+  background: transparent;
+  border-color: var(--color-border);
+}
+
+.button--danger {
+  color: var(--color-text-inverse);
+  background: var(--color-danger);
+}
+
+.button--link {
+  min-height: auto;
+  padding: 0;
+  border-radius: 0;
+  color: var(--color-primary);
+  background: transparent;
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+.button--small {
+  min-height: 2.25rem;
+  padding: 0.55rem 0.9rem;
+  font-size: var(--text-sm);
+}
+
+.button--large {
+  min-height: 3.25rem;
+  padding: 0.95rem 1.55rem;
+  font-size: var(--text-lg);
+}
+
+@media (max-width: 425px) {
+  .button--large {
+    width: 100%;
+    padding-inline: var(--space-4);
+  }
+}
+
+.button--full {
+  width: 100%;
+}
+
+.button__icon {
+  width: 1.1em;
+  height: 1.1em;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Страница класса с домашним заданием, материалами, тренировками и вопросами учителю.">
+  <title>7Б класс — English Teacher</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="nav__brand" href="home.html">English Teacher</a>
+      <nav aria-label="Основная навигация">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="home.html">Главная</a></li>
+          <li><a class="nav__link" href="practice.html">Тренировка</a></li>
+          <li><a class="nav__link" href="extra-lessons.html">Допзанятия</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="page-hero" aria-labelledby="class-title">
+      <div class="container page-hero__inner">
+        <div class="page-hero__content">
+          <nav aria-label="Хлебные крошки">
+            <ol class="breadcrumbs"><li><a href="home.html">Главная</a></li><li>›</li><li aria-current="page">7Б класс</li></ol>
+          </nav>
+          <h1 id="class-title">7Б класс: Past Simple и irregular verbs</h1>
+          <p class="page-hero__text">Здесь собраны материалы текущего урока, домашнее задание, тренировка и форма вопроса учителю.</p>
+          <div class="cluster"><span class="badge badge--warning">Дедлайн: пятница</span><span class="badge badge--new">Новый тест</span></div>
+        </div>
+        <div class="page-hero__media">Класс 7Б</div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="homework-title">
+      <div class="container lesson-layout">
+        <div class="stack">
+          <article class="card card--accent">
+            <span class="badge badge--important">Актуальная домашка</span>
+            <h2 id="homework-title">Workbook: page 42, exercises 5-7</h2>
+            <p class="card__text">Повтори таблицу irregular verbs и выполни мини-тест на сайте. После теста отправь результат учителю.</p>
+            <div class="card__actions"><a class="button button--primary" href="practice.html">Пройти тренировку</a></div>
+          </article>
+
+          <section class="card" aria-labelledby="materials-title">
+            <h2 id="materials-title">Материалы к уроку</h2>
+            <ul class="material-list">
+              <li class="material-item">
+                <div><div class="material-item__meta"><span class="badge">Grammar</span><span class="badge badge--new">Новое</span></div><h3>Past Simple: правило и примеры</h3><p class="card__text">Краткая памятка с вопросами и отрицаниями.</p></div>
+                <a class="button button--secondary button--small" href="#">Открыть</a>
+              </li>
+              <li class="material-item">
+                <div><div class="material-item__meta"><span class="badge">Vocabulary</span></div><h3>Irregular verbs list</h3><p class="card__text">Список глаголов для повторения перед тестом.</p></div>
+                <a class="button button--secondary button--small" href="#">Скачать</a>
+              </li>
+            </ul>
+          </section>
+        </div>
+        <aside class="stack">
+          <section class="card" aria-labelledby="announce-title">
+            <h2 id="announce-title">Объявления</h2>
+            <p class="card__text">В четверг короткий диктант по неправильным глаголам.</p>
+          </section>
+          <section class="card" aria-labelledby="ask-title">
+            <h2 id="ask-title">Задать вопрос</h2>
+            <form class="form" action="#" method="post" novalidate>
+              <label class="form__field" for="student-name"><span class="form__label">Имя</span><input class="input" id="student-name" name="name" type="text" autocomplete="name"></label>
+              <label class="form__field" for="student-question"><span class="form__label">Вопрос</span><textarea class="textarea" id="student-question" name="question"></textarea></label>
+              <button class="button button--primary" type="submit">Отправить вопрос</button>
+            </form>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container"><a href="home.html">Вернуться на главную</a></div></footer>
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

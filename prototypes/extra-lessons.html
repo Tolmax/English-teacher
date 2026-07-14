@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Дополнительные занятия по английскому языку для учеников.">
+  <title>Дополнительные занятия — English Teacher</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="container nav"><a class="nav__brand" href="home.html">English Teacher</a><nav aria-label="Основная навигация"><ul class="nav__list"><li><a class="nav__link" href="home.html">Главная</a></li><li><a class="nav__link" href="class.html">Класс</a></li></ul></nav></div></header>
+  <main>
+    <section class="page-hero" aria-labelledby="extra-title">
+      <div class="container page-hero__inner">
+        <div class="page-hero__content">
+          <h1 id="extra-title">Дополнительные занятия по английскому</h1>
+          <p class="page-hero__text">Если тема не усвоилась на уроке, можно разобрать её спокойно: индивидуально, в мини-группе или перед контрольной.</p>
+          <div class="cluster"><span class="badge badge--success">Индивидуально</span><span class="badge">Мини-группа</span><span class="badge badge--warning">Перед контрольной</span></div>
+        </div>
+        <div class="page-hero__media">Запись на занятие</div>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="formats-title">
+      <div class="container lesson-layout">
+        <div class="stack">
+          <div class="section__header"><h2 id="formats-title">Форматы помощи</h2><p class="section__lead">Занятия подбираются по цели ученика: подтянуть тему, подготовиться к работе или закрыть пробелы.</p></div>
+          <div class="card-grid">
+            <article class="card"><h3>Разбор темы</h3><p class="card__text">Короткое занятие по конкретной теме урока.</p></article>
+            <article class="card"><h3>Подготовка</h3><p class="card__text">Повторение перед контрольной или диктантом.</p></article>
+            <article class="card"><h3>Тренировка</h3><p class="card__text">Практика грамматики, лексики и чтения.</p></article>
+          </div>
+        </div>
+        <aside class="card card--accent">
+          <h2>Заявка</h2>
+          <form class="form" action="#" method="post" novalidate>
+            <label class="form__field" for="extra-name"><span class="form__label">Имя</span><input class="input" id="extra-name" name="name" type="text"></label>
+            <label class="form__field" for="extra-class"><span class="form__label">Класс</span><input class="input" id="extra-class" name="class" type="text"></label>
+            <label class="form__field" for="extra-topic"><span class="form__label">Что нужно разобрать</span><textarea class="textarea" id="extra-topic" name="topic"></textarea></label>
+            <button class="button button--primary" type="submit">Отправить заявку</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container"><a href="home.html">На главную</a></div></footer>
+  <script type="module" src="../assets/js/main.js"></script>
+</body>
+</html>

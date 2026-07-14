@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Вход учителя в админскую часть сайта.">
+  <title>Вход учителя — English Teacher</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+  <main class="login-page">
+    <section class="card login-card" aria-labelledby="login-title">
+      <div class="section__header">
+        <h1 id="login-title">Вход учителя</h1>
+        <p class="section__lead">После входа можно обновлять материалы и смотреть выполненные задания учеников.</p>
+      </div>
+      <form class="form" action="dashboard.html" method="post" novalidate>
+        <label class="form__field" for="login-email"><span class="form__label">Email</span><input class="input" id="login-email" name="email" type="email" autocomplete="email" required></label>
+        <label class="form__field" for="login-password"><span class="form__label">Пароль</span><input class="input" id="login-password" name="password" type="password" autocomplete="current-password" required></label>
+        <button class="button button--primary button--full" type="submit">Войти</button>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="../../assets/js/main.js"></script>
+</body>
+</html>

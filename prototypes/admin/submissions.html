@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ответы учеников и результаты выполненных заданий для учителя.">
+  <title>Ответы учеников — English Teacher</title>
+  <link rel="stylesheet" href="../../assets/css/main.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <a class="nav__brand" href="dashboard.html">Teacher Admin</a>
+      <nav class="admin-sidebar__nav" aria-label="Админская навигация">
+        <a class="admin-sidebar__link" href="dashboard.html">Сводка</a>
+        <a class="admin-sidebar__link" href="classes.html">Классы</a>
+        <a class="admin-sidebar__link" href="submissions.html" aria-current="page">Ответы учеников</a>
+        <a class="admin-sidebar__link" href="../home.html">На сайт</a>
+      </nav>
+    </aside>
+    <main class="admin-main">
+      <section class="stack" aria-labelledby="submissions-title">
+        <div class="section__header">
+          <h1 id="submissions-title">Ответы учеников</h1>
+          <p class="section__lead">Так учитель узнаёт, кто выполнил задание на сайте: каждый результат попадает в этот список.</p>
+        </div>
+        <section class="card" aria-labelledby="filters-title">
+          <h2 id="filters-title">Фильтры</h2>
+          <form class="form" action="#" method="get">
+            <div class="form__row">
+              <label class="form__field" for="filter-class"><span class="form__label">Класс</span><select class="select" id="filter-class" name="class"><option>Все классы</option><option>7Б</option><option>5А</option></select></label>
+              <label class="form__field" for="filter-status"><span class="form__label">Статус</span><select class="select" id="filter-status" name="status"><option>Все статусы</option><option>Сдано</option><option>Проверить</option></select></label>
+            </div>
+            <button class="button button--secondary" type="submit">Показать</button>
+          </form>
+        </section>
+        <section class="card" aria-labelledby="submissions-list-title">
+          <h2 id="submissions-list-title">Последние отправки</h2>
+          <div class="stack">
+            <article class="submission">
+              <span class="avatar avatar--md">АП</span>
+              <div><h3>Анна Петрова</h3><p class="card__text">7Б · Past Simple mini-test · 8 из 10 · сегодня 15:20</p></div>
+              <button class="button button--primary button--small" type="button" data-modal="submission-detail">Открыть</button>
+            </article>
+            <article class="submission">
+              <span class="avatar avatar--md">МК</span>
+              <div><h3>Михаил Ким</h3><p class="card__text">7Б · Irregular verbs · 6 из 10 · сегодня 14:40</p></div>
+              <span class="badge badge--warning">Проверить</span>
+            </article>
+            <article class="submission">
+              <span class="avatar avatar--md">ЕС</span>
+              <div><h3>Елена Смирнова</h3><p class="card__text">5А · School subjects · 10 из 10 · вчера 19:05</p></div>
+              <span class="badge badge--success">Сдано</span>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <dialog class="modal" id="submission-detail" aria-labelledby="submission-detail-title" data-modal-dialog>
+    <div class="modal__content">
+      <div class="modal__header"><h2 class="modal__title" id="submission-detail-title">Ответ Анны Петровой</h2><button class="modal__close" type="button" aria-label="Закрыть окно" data-modal-close>×</button></div>
+      <div class="stack">
+        <p><strong>Класс:</strong> 7Б</p>
+        <p><strong>Задание:</strong> Past Simple mini-test</p>
+        <p><strong>Результат:</strong> 8 из 10</p>
+        <div class="alert alert--warning" role="status">Ошибки: вопрос 2, вопрос 5. Можно дать повторение по irregular verbs.</div>
+        <button class="button button--primary" type="button" data-modal-close>Отметить просмотренным</button>
+      </div>
+    </div>
+  </dialog>
+  <script type="module" src="../../assets/js/main.js"></script>
+</body>
+</html>
