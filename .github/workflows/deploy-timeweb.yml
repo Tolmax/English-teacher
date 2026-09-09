@@ -1,0 +1,67 @@
+name: Test and deploy to Timeweb
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: timeweb-production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: PHP checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Install PHP test extensions
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y php-cli php-zip php-xml php-mbstring php-sqlite3
+
+      - name: Lint PHP files
+        run: find windows-package-build/package/local-presentation-generator website scripts tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Run generator and website tests
+        run: |
+          php tests/provider-test.php
+          php tests/website-yandex-test.php
+          php tests/website-russian-test.php
+          php tests/website-lesson-test.php
+          php tests/website-login-test.php
+
+  deploy:
+    name: Production deployment
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://cr77641.tw1.ru/english/
+    steps:
+      - name: Check out tested commit
+        uses: actions/checkout@v4
+
+      - name: Configure Timeweb SSH access
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.TIMEWEB_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.TIMEWEB_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy tested website code
+        env:
+          TIMEWEB_HOST: vh436.timeweb.ru
+          TIMEWEB_USER: cr77641
+          TIMEWEB_SITE_PATH: /home/c/cr77641/My_Projects/public_html/english
+          TIMEWEB_SITE_URL: https://cr77641.tw1.ru/english
+        run: bash scripts/deploy-timeweb.sh
