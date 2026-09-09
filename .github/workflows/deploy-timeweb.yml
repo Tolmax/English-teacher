@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Install PHP test extensions
         run: |
@@ -45,7 +45,7 @@ jobs:
       url: https://cr77641.tw1.ru/english/
     steps:
       - name: Check out tested commit
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
       - name: Configure Timeweb SSH access
         env:
