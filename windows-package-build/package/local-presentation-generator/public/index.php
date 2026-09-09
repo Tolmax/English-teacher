@@ -6,6 +6,7 @@ set_time_limit(600);
 
 require __DIR__ . '/../src/bootstrap.php';
 require APP_ROOT . 'src/openai.php';
+require APP_ROOT . 'src/yandex.php';
 require APP_ROOT . 'src/pptx-presentation-builder.php';
 
 ensureLocalDirectory('storage/output');
@@ -58,13 +59,16 @@ $old = [
     'api_key' => '',
 ];
 
-$envHasKey = openAiApiKey('') !== '';
+$provider = ($_POST['provider'] ?? 'openai') === 'yandex' ? 'yandex' : 'openai';
+$keyName = $provider === 'yandex' ? 'YANDEX_API_KEY' : 'OPENAI_API_KEY';
+$providerLabel = $provider === 'yandex' ? 'Яндекс AI' : 'OpenAI';
+$envHasKey = trim(envValue($keyName)) !== '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $old['title'] = normalizeText((string)($_POST['title'] ?? ''));
     $old['class_title'] = normalizeText((string)($_POST['class_title'] ?? ''));
     $old['words'] = trim((string)($_POST['words'] ?? ''));
-    $old['api_key'] = $envHasKey ? '' : trim((string)($_POST['api_key'] ?? ''));
+    $old['api_key'] = $envHasKey ? '' : trim((string)($_POST[$provider . '_api_key'] ?? ''));
 
     try {
         if (($_POST['cleanup_storage'] ?? '') === '1') {
@@ -72,13 +76,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $storageStats = generatedStorageStats();
         }
 
-        $apiKey = openAiApiKey($old['api_key']);
+        $apiKey = $envHasKey ? trim(envValue($keyName)) : $old['api_key'];
         if ($apiKey === '') {
-            throw new RuntimeException('Укажите OPENAI_API_KEY в .env или вставьте ключ в поле формы.');
+            throw new RuntimeException('Укажите API-ключ для ' . $providerLabel . ' в поле формы.');
         }
+        if (preg_match('/[\r\n]/', $apiKey)) throw new RuntimeException('API-ключ не должен содержать переносы строк.');
 
         if (!$envHasKey && $old['api_key'] !== '' && ($_POST['save_api_key'] ?? '') === '1') {
-            saveEnvValue('OPENAI_API_KEY', $old['api_key']);
+            saveEnvValue($keyName, $old['api_key']);
             $envHasKey = true;
         }
 
@@ -104,12 +109,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new RuntimeException('Не удалось создать папку изображений.');
         }
 
-        $generated = generatePresentationCardsWithOpenAi($apiKey, $title, $classTitle, $sourceWords);
+        $generated = generatePresentationCardsWithOpenAi($apiKey, $title, $classTitle, $sourceWords, $provider === 'yandex' ? 'requestYandexCards' : null);
         $cards = [];
 
         foreach ($generated['cards'] as $index => $card) {
             $imagePath = $imageDir . 'card_' . str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) . '.png';
-            generateCardImageWithOpenAi($apiKey, $card, $imagePath);
+            try {
+                $provider === 'yandex'
+                    ? generateYandexImage($apiKey, $card, $imagePath)
+                    : generateCardImageWithOpenAi($apiKey, $card, $imagePath);
+            } catch (RuntimeException $exception) {
+                throw new RuntimeException('Карточка «' . $card['english_word'] . '»: ' . $exception->getMessage());
+            }
             $card['image_path'] = 'storage/images/' . $runId . '/card_' . str_pad((string)($index + 1), 2, '0', STR_PAD_LEFT) . '.png';
             $card['image_mime'] = 'image/png';
             $cards[] = $card;
@@ -206,6 +217,13 @@ $fileManagerName = PHP_OS_FAMILY === 'Darwin' ? 'Finder' : 'Проводнике
     <form id="generatorForm" class="panel" method="post">
       <input id="cleanupStorage" name="cleanup_storage" type="hidden" value="0">
       <div class="field">
+        <label for="provider">Сервис генерации</label>
+        <select id="provider" name="provider" style="width:100%;padding:12px;font:inherit">
+          <option value="openai" <?= $provider === 'openai' ? 'selected' : '' ?>>OpenAI</option>
+          <option value="yandex" <?= $provider === 'yandex' ? 'selected' : '' ?>>Яндекс AI</option>
+        </select>
+      </div>
+      <div class="field">
         <label for="title">Название презентации</label>
         <input id="title" name="title" value="<?= e($old['title']) ?>" required>
       </div>
@@ -214,16 +232,23 @@ $fileManagerName = PHP_OS_FAMILY === 'Darwin' ? 'Finder' : 'Проводнике
         <input id="class_title" name="class_title" value="<?= e($old['class_title']) ?>" placeholder="Например: 5 класс">
       </div>
       <div class="field">
-        <label for="words">Английские слова</label>
+        <label for="words">Английские слова и выражения</label>
         <textarea id="words" name="words" required><?= e($old['words']) ?></textarea>
         <div class="hint">До 20 слов за один запуск. Можно вводить с новой строки, через запятую или точку с запятой.</div>
       </div>
-      <?php if (!$envHasKey): ?>
+      <?php foreach (['openai' => 'OpenAI', 'yandex' => 'Яндекс AI'] as $service => $label): ?>
+      <div data-provider="<?= e($service) ?>" <?= $provider !== $service ? 'hidden' : '' ?>>
+      <?php if (trim(envValue($service === 'yandex' ? 'YANDEX_API_KEY' : 'OPENAI_API_KEY')) === ''): ?>
         <div class="field">
-          <label for="api_key">OpenAI API key</label>
-          <input id="api_key" name="api_key" value="" type="password" autocomplete="off" placeholder="sk-...">
+          <label for="<?= e($service) ?>_api_key">API-ключ <?= e($label) ?></label>
+          <input id="<?= e($service) ?>_api_key" name="<?= e($service) ?>_api_key" value="" type="password" autocomplete="off">
           <div class="hint">Можно использовать ключ один раз или сохранить его в .env на этом компьютере.</div>
         </div>
+      <?php else: ?>
+        <div class="alert alert--ok">Ключ <?= e($label) ?> найден на этом компьютере.</div>
+      <?php endif; ?>
+      </div>
+      <?php endforeach; ?>
         <div class="field">
           <label>
             <input name="save_api_key" value="1" type="checkbox" checked style="width:auto;margin-right:8px;">
@@ -231,20 +256,15 @@ $fileManagerName = PHP_OS_FAMILY === 'Darwin' ? 'Finder' : 'Проводнике
           </label>
           <div class="hint">Ключ будет записан в файл .env в папке установленной программы.</div>
         </div>
-      <?php else: ?>
-        <div class="alert alert--ok">Ключ OpenAI уже найден в .env. Вводить его в форме не нужно.</div>
-      <?php endif; ?>
       <button id="submitButton" class="button" type="submit">Сгенерировать PPTX</button>
     </form>
 
     <aside class="panel">
       <dl>
         <dt>Текстовая модель</dt>
-        <dd><?= e(openAiModelName()) ?></dd>
+        <dd id="textModel"><?= e($provider === 'yandex' ? 'YandexGPT 5.1 Pro' : openAiModelName()) ?></dd>
         <dt>Модель изображений</dt>
-        <dd><?= e(openAiImageModelName()) ?></dd>
-        <dt>Ключ в .env</dt>
-        <dd><?= $envHasKey ? 'найден' : 'не найден' ?></dd>
+        <dd id="imageModel"><?= e($provider === 'yandex' ? 'Alice AI ART' : openAiImageModelName()) ?></dd>
         <dt>Результаты</dt>
         <dd>storage/output и public/downloads</dd>
       </dl>
@@ -261,6 +281,17 @@ $fileManagerName = PHP_OS_FAMILY === 'Darwin' ? 'Finder' : 'Проводнике
 
 </main>
 <script>
+  const providerSelect = document.getElementById('provider');
+  function updateProvider() {
+    document.querySelectorAll('[data-provider]').forEach(panel => {
+      panel.hidden = panel.dataset.provider !== providerSelect.value;
+      panel.querySelectorAll('input').forEach(input => { input.disabled = panel.hidden; });
+    });
+    document.getElementById('textModel').textContent = providerSelect.value === 'yandex' ? 'YandexGPT 5.1 Pro' : <?= json_encode(openAiModelName(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+    document.getElementById('imageModel').textContent = providerSelect.value === 'yandex' ? 'Alice AI ART' : <?= json_encode(openAiImageModelName(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+  }
+  providerSelect.addEventListener('change', updateProvider);
+  updateProvider();
   const form = document.getElementById('generatorForm');
   const busyAlert = document.getElementById('busyAlert');
   const submitButton = document.getElementById('submitButton');

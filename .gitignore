@@ -29,3 +29,8 @@ windows-package-build/php-windows-x64/
 *.dll
 *.lib
 *.pdb
+
+# Website test/runtime data
+website/database/*.sqlite*
+website/storage/
+website/uploads/

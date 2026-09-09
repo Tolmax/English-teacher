@@ -49,6 +49,10 @@ function buildWordPresentationPptx(array $presentation, array $cards, string $ou
         ];
     }
 
+    foreach (array_chunk($cards, 10) as $answerPageIndex => $answerCards) {
+        $slides[] = ['type' => 'answers', 'cards' => $answerCards, 'offset' => $answerPageIndex * 10];
+    }
+
     $zip->addFromString('[Content_Types].xml', pptxContentTypesXml(count($slides)));
     $zip->addFromString('_rels/.rels', pptxRootRelsXml());
     $zip->addFromString('docProps/core.xml', pptxCoreXml((string)($presentation['title'] ?? 'Word presentation')));
@@ -182,6 +186,7 @@ function pptxTableStylesXml(): string
 
 function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): string
 {
+    if (($slide['type'] ?? '') === 'answers') return pptxAnswerSlideXml($slide, $slideNumber);
     $isCover = ($slide['type'] ?? '') === 'cover';
     $isImage = ($slide['type'] ?? '') === 'image';
     $isQuiz = ($slide['type'] ?? '') === 'quiz';
@@ -226,16 +231,41 @@ function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): 
         return pptxQuizSlideXml($slide, $slideNumber);
     }
 
+    $titleBox = pptxAdaptiveTextBox($title, 5200, 1040000);
+    $transcriptionBox = pptxAdaptiveTextBox($transcription, 2400, 700000);
+    $hintBox = pptxAdaptiveTextBox($hint, 2200, 1700000);
+
     return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
         . '<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">'
         . '<p:cSld><p:spTree>'
         . pptxGroupShapeXml()
         . pptxShapeXml(2, 'Background', 0, 0, 12192000, 6858000, 'F6F8FC', 'F6F8FC', '')
-        . pptxShapeXml(4, 'Word', 2438400, 1150000, 7315200, 1040000, 'FFFFFF', 'FFFFFF', $title, 5200, '1D4F91', true)
-        . pptxShapeXml(5, 'Transcription', 2438400, 2440000, 7315200, 700000, 'FFFFFF', 'FFFFFF', $transcription, 2400, '536177')
-        . pptxShapeXml(6, 'Hint', 2438400, 3470000, 7315200, 1700000, 'FFFFFF', 'D8E2F1', $hint, 2200, '1E2633')
+        . pptxShapeXml(4, 'Word', $titleBox['x'], 1150000, $titleBox['width'], 1040000, 'FFFFFF', 'FFFFFF', $title, $titleBox['font'], '1D4F91', true)
+        . pptxShapeXml(5, 'Transcription', $transcriptionBox['x'], 2440000, $transcriptionBox['width'], 700000, 'FFFFFF', 'FFFFFF', $transcription, $transcriptionBox['font'], '536177')
+        . pptxShapeXml(6, 'Hint', $hintBox['x'], 3470000, $hintBox['width'], 1700000, 'FFFFFF', 'D8E2F1', $hint, $hintBox['font'], '1E2633')
         . pptxShapeXml(7, 'Page', 10700000, 6240000, 900000, 300000, 'F6F8FC', 'F6F8FC', (string)$slideNumber, 1400, '6B7890')
         . '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
+}
+
+function pptxAdaptiveTextBox(string $text, int $font, int $height): array
+{
+    // EMU coordinates: keep half-inch margins and expand symmetrically.
+    // Conservative width estimate includes padding and room for font differences.
+    $width = (int)max(7315200, min(10972800, mb_strlen($text, 'UTF-8') * ($font / 100) * 0.6 * 12700 + 240000));
+    $words = preg_split('/\s+/u', trim($text)) ?: [];
+    for ($size = $font; $size > 1400; $size -= 100) {
+        $capacity = max(1, (int)floor(($width - 240000) / (($size / 100) * 0.6 * 12700)));
+        $lines = 1;
+        $used = 0;
+        foreach ($words as $word) {
+            $length = mb_strlen($word, 'UTF-8');
+            if ($used && $used + 1 + $length > $capacity) { $lines++; $used = 0; }
+            $used += ($used ? 1 : 0) + $length;
+            while ($used > $capacity) { $lines++; $used -= $capacity; }
+        }
+        if ($lines * ($size / 100) * 1.25 * 12700 <= $height - 100000) break;
+    }
+    return ['x' => (int)((12192000 - $width) / 2), 'width' => $width, 'font' => $size];
 }
 
 function pptxQuizSlideXml(array $slide, int $slideNumber): string
@@ -304,10 +334,41 @@ function pptxQuizSlideXml(array $slide, int $slideNumber): string
         . '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
 }
 
+function pptxAnswerSlideXml(array $slide, int $slideNumber): string
+{
+    $cards = array_values($slide['cards']);
+    $offset = (int)$slide['offset'];
+    $rowHeight = (int)floor(5200000 / max(1, count($cards)));
+    $shapes = pptxGroupShapeXml()
+        . pptxShapeXml(2, 'Background', 0, 0, 12192000, 6858000, 'F6F8FC', 'F6F8FC', '')
+        . pptxTextOnlyXml(3, 'Answer title', 609600, 200000, 10972800, 500000, 'Check your answers', 2800, '1D4F91', true);
+    foreach ($cards as $index => $card) {
+        $sentence = trim((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? ''));
+        $word = (string)$card['english_word'];
+        $numbered = ($offset + $index + 1) . '. ' . $sentence;
+        $box = pptxAdaptiveTextBox($numbered, 2000, $rowHeight);
+        $shape = pptxTextOnlyXml(40 + $index, 'Answer ' . ($offset + $index + 1), 609600, 900000 + $index * $rowHeight, 10972800, $rowHeight, $numbered, $box['font'], '1E2633');
+        if ($word !== '' && preg_match('/(?<![\p{L}\p{N}])' . preg_quote($word, '/') . '(?![\p{L}\p{N}])/iu', $numbered, $match, PREG_OFFSET_CAPTURE)) {
+            $position = $match[0][1];
+            $answer = $match[0][0];
+            $runs = '';
+            foreach ([[substr($numbered, 0, $position), false], [$answer, true], [substr($numbered, $position + strlen($answer)), false]] as [$text, $highlight]) {
+                $runs .= '<a:r><a:rPr lang="en-US" sz="' . $box['font'] . '"' . ($highlight ? ' b="1"' : '') . '><a:solidFill><a:srgbClr val="' . ($highlight ? '087F5B' : '1E2633') . '"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t xml:space="preserve">' . pptxXml($text) . '</a:t></a:r>';
+            }
+            $shape = preg_replace('/<a:r>.*?<\/a:r>/s', str_replace(['\\', '$'], ['\\\\', '\\$'], $runs), $shape, 1) ?? $shape;
+        }
+        $shapes .= $shape;
+    }
+    $shapes .= pptxTextOnlyXml(8, 'Page', 10700000, 6240000, 900000, 300000, (string)$slideNumber, 1400, '6B7890');
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+        . '<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">'
+        . '<p:cSld><p:spTree>' . $shapes . '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
+}
+
 function pptxQuizSentenceWithBlank(array $card): string
 {
     $word = trim((string)($card['english_word'] ?? ''));
-    $sentence = trim((string)($card['example_sentence'] ?? ''));
+    $sentence = trim((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? ''));
     if ($word === '' || $sentence === '') {
         return 'Choose the correct word: ...';
     }

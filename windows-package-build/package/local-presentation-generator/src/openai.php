@@ -24,9 +24,10 @@ function openAiImageModelName(): string
     return $model !== '' ? $model : 'gpt-image-2';
 }
 
-function generatePresentationCardsWithOpenAi(string $apiKey, string $title, string $classTitle, array $sourceWords): array
+function generatePresentationCardsWithOpenAi(string $apiKey, string $title, string $classTitle, array $sourceWords, ?callable $requestCards = null): array
 {
-    $response = requestPresentationCards($apiKey, $title, $classTitle, $sourceWords);
+    $requestCards ??= 'requestPresentationCards';
+    $response = $requestCards($apiKey, $title, $classTitle, $sourceWords);
     $cardsBySource = parseCardsJson($response['text'], $sourceWords, true);
 
     // A long batch can occasionally omit one item. Retry only missing phrases,
@@ -37,7 +38,7 @@ function generatePresentationCardsWithOpenAi(string $apiKey, string $title, stri
             continue;
         }
 
-        $retry = requestPresentationCards($apiKey, $title, $classTitle, [(string)$sourceWord]);
+        $retry = $requestCards($apiKey, $title, $classTitle, [(string)$sourceWord]);
         $cardsBySource += parseCardsJson($retry['text'], [(string)$sourceWord], true);
     }
 
@@ -45,7 +46,7 @@ function generatePresentationCardsWithOpenAi(string $apiKey, string $title, stri
     foreach ($sourceWords as $sourceWord) {
         $key = cardSourceKey((string)$sourceWord);
         if (!isset($cardsBySource[$key])) {
-            throw new RuntimeException('OpenAI не смог подготовить карточку для выражения «' . normalizeText((string)$sourceWord) . '». Попробуйте повторить генерацию.');
+            throw new RuntimeException(($requestCards === 'requestYandexCards' ? 'Яндекс AI' : 'OpenAI') . ' не смог подготовить полную карточку и предложение для теста для выражения «' . normalizeText((string)$sourceWord) . '». Попробуйте повторить генерацию.');
         }
         $cards[] = $cardsBySource[$key];
     }
@@ -101,7 +102,10 @@ function buildCardsPrompt(string $title, string $classTitle, array $sourceWords)
         '- hint must be a short and simple definition written only in English; do not translate it into Russian;',
         '- image_prompt must describe a concrete scene that visually represents the entire word or expression, and must request no letters, no text, no logo, no watermark.',
         '- example_sentence must be one short, easy English sentence for pupils;',
-        '- example_sentence must contain the complete teacher learning item exactly once in a natural context;',
+        '- example_sentence must be natural English; you may add articles or pronouns and inflect verbs as necessary;',
+        '- also return quiz_sentence: a complete grammatical English sentence containing the original learning item verbatim exactly once, for automatic blanking. Do not insert the blank yourself;',
+        '- For a shorthand expression, choose a context in which the literal phrase is grammatical. Example: source_word="miss hometown", example_sentence="I miss my hometown when I travel.", quiz_sentence="I miss hometown traditions when I travel.";',
+        '- Parenthetical notes are part of the original item and must appear once in quiz_sentence; example: "Our school facilities (a computer room and a swimming pool) help us learn and exercise.";',
     ]);
 }
 
@@ -303,12 +307,7 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
         $returnedSource = normalizeText((string)($card['source_word'] ?? ''));
         $key = cardSourceKey($returnedSource);
         if (!isset($expected[$key])) {
-            $fallbackSource = normalizeText((string)($sourceWords[$index] ?? ''));
-            $fallbackKey = cardSourceKey($fallbackSource);
-            if ($fallbackSource === '' || !isset($expected[$fallbackKey]) || isset($normalized[$fallbackKey])) {
-                continue;
-            }
-            $key = $fallbackKey;
+            continue;
         }
 
         $sourceWord = $expected[$key];
@@ -317,12 +316,13 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
         $hint = normalizeText((string)($card['hint'] ?? ''));
         $imagePrompt = normalizeText((string)($card['image_prompt'] ?? ''));
         $exampleSentence = normalizeText((string)($card['example_sentence'] ?? ''));
+        $quizSentence = normalizeText((string)($card['quiz_sentence'] ?? $exampleSentence));
 
         if ($sourceWord === '' || $englishWord === '' || $transcription === '' || $hint === '' || $imagePrompt === '' || $exampleSentence === '') {
             continue;
         }
 
-        if (preg_match('/(?<![\p{L}\p{N}])' . preg_quote($englishWord, '/') . '(?![\p{L}\p{N}])/iu', $exampleSentence) !== 1) {
+        if (preg_match_all('/(?<![\p{L}\p{N}])' . preg_quote($englishWord, '/') . '(?![\p{L}\p{N}])/iu', $quizSentence) !== 1) {
             continue;
         }
 
@@ -333,6 +333,7 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
             'hint' => $hint,
             'image_prompt' => $imagePrompt,
             'example_sentence' => $exampleSentence,
+            'quiz_sentence' => $quizSentence,
         ];
     }
 

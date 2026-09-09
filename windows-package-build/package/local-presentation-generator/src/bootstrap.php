@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-const APP_NAME = 'OpenAI Presentation Generator';
+const APP_NAME = 'English Presentation Generator';
 define('APP_ROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 define('ROOT', APP_ROOT);
 
-loadLocalEnv(APP_ROOT . '.env');
+define('APP_DATA_ROOT', rtrim((string)(getenv('PRESENTATION_DATA_DIR') ?: (PHP_OS_FAMILY === 'Darwin' ? getenv('HOME') . '/Library/Application Support/EnglishPresentationGenerator' : APP_ROOT)), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+loadLocalEnv(APP_DATA_ROOT . '.env');
 
 function loadLocalEnv(string $path): void
 {
@@ -83,7 +84,7 @@ function appUrlPath(string $absolutePath): string
 
 function saveEnvValue(string $key, string $value): void
 {
-    $envPath = APP_ROOT . '.env';
+    $envPath = APP_DATA_ROOT . '.env';
     $lines = is_file($envPath) ? file($envPath, FILE_IGNORE_NEW_LINES) : [];
 
     if ($lines === false) {
@@ -110,7 +111,7 @@ function saveEnvValue(string $key, string $value): void
 
 function ensureLocalDirectory(string $relativePath): string
 {
-    $path = APP_ROOT . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath);
+    $path = APP_DATA_ROOT . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath);
     if (!is_dir($path)) {
         mkdir($path, 0775, true);
     }
@@ -149,7 +150,7 @@ function generatedPresentationPath(string $runId, string $fileName): string
         return '';
     }
 
-    $path = APP_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'output' . DIRECTORY_SEPARATOR . $runId . DIRECTORY_SEPARATOR . $fileName;
+    $path = APP_DATA_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'output' . DIRECTORY_SEPARATOR . $runId . DIRECTORY_SEPARATOR . $fileName;
     return is_file($path) ? $path : '';
 }
 
@@ -193,8 +194,8 @@ function cleanupOldGeneratedFiles(int $days = 30): void
 {
     $cutoff = time() - ($days * 86400);
     $targets = [
-        APP_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'images',
-        APP_ROOT . 'public' . DIRECTORY_SEPARATOR . 'downloads',
+        APP_DATA_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'images',
+        APP_DATA_ROOT . 'downloads',
     ];
 
     foreach ($targets as $target) {
@@ -217,9 +218,9 @@ function cleanupOldGeneratedFiles(int $days = 30): void
 function generatedStoragePaths(): array
 {
     return [
-        APP_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'output',
-        APP_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'images',
-        APP_ROOT . 'public' . DIRECTORY_SEPARATOR . 'downloads',
+        APP_DATA_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'output',
+        APP_DATA_ROOT . 'storage' . DIRECTORY_SEPARATOR . 'images',
+        APP_DATA_ROOT . 'downloads',
     ];
 }
 

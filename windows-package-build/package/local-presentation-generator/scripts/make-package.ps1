@@ -10,6 +10,9 @@ New-Item -ItemType Directory -Path $packageRoot | Out-Null
 
 $excludeDirs = @('\storage\output\', '\storage\images\', '\public\downloads\')
 $files = Get-ChildItem $appRoot -Recurse -File | Where-Object {
+    if (($_.Name -like '.env*' -and $_.Name -ne '.env.example') -or $_.Name -eq '.DS_Store' -or $_.Extension -in @('.zip', '.log', '.tmp')) {
+        return $false
+    }
     $full = $_.FullName
     foreach ($dir in $excludeDirs) {
         if ($full.Contains($dir)) {

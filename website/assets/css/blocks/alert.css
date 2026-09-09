@@ -1,0 +1,110 @@
+.alert,
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.alert--success,
+.toast--success {
+  color: var(--color-success);
+  border-color: rgba(47, 158, 99, 0.3);
+  background: var(--color-success-bg);
+}
+
+.alert--danger,
+.toast--danger {
+  color: var(--color-danger);
+  border-color: rgba(217, 66, 75, 0.3);
+  background: var(--color-danger-bg);
+}
+
+.alert--warning,
+.toast--warning {
+  color: var(--color-warning);
+  border-color: rgba(183, 121, 31, 0.3);
+  background: var(--color-warning-bg);
+}
+
+.alert--info,
+.toast--info {
+  color: var(--color-primary);
+  border-color: rgba(49, 95, 186, 0.3);
+  background: var(--color-info-bg);
+}
+
+.system-check-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.system-check-list__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.system-check-list__item h3 {
+  margin: 0 0 var(--space-1);
+}
+
+.status-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--color-surface);
+}
+
+.status-pill--success {
+  color: var(--color-success);
+  border-color: rgba(47, 158, 99, 0.3);
+  background: var(--color-success-bg);
+}
+
+.status-pill--warning {
+  color: var(--color-warning);
+  border-color: rgba(183, 121, 31, 0.3);
+  background: var(--color-warning-bg);
+}
+
+.status-pill--danger {
+  color: var(--color-danger);
+  border-color: rgba(217, 66, 75, 0.3);
+  background: var(--color-danger-bg);
+}
+
+@media (max-width: 760px) {
+  .system-check-list__item {
+    grid-template-columns: 1fr;
+  }
+
+  .status-group {
+    justify-content: flex-start;
+  }
+}
