@@ -9,7 +9,7 @@ $activeNav = $activeNav ?? '';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Панель учителя английского для управления классами, материалами, ИИ-тестами и ответами учеников.">
   <title><?= e($pageTitle) ?></title>
-  <link rel="stylesheet" href="<?= HOST ?>assets/css/main.css?v=20260910-5">
+  <link rel="stylesheet" href="<?= HOST ?>assets/css/main.css?v=20260910-6">
 </head>
 <body>
   <div class="admin-shell" data-admin-shell>

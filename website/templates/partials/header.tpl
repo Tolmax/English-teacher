@@ -9,7 +9,7 @@ $pageDescription = $pageDescription ?? 'Учебный сайт учителя �
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="<?= e($pageDescription) ?>">
   <title><?= e($pageTitle) ?></title>
-  <link rel="stylesheet" href="<?= HOST ?>assets/css/main.css?v=20260910-5">
+  <link rel="stylesheet" href="<?= HOST ?>assets/css/main.css?v=20260910-6">
 </head>
 <body class="public-site">
   <header class="site-header">

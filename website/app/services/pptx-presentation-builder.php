@@ -233,8 +233,8 @@ function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): 
     }
 
     $titleBox = pptxAdaptiveTextBox($title, 5200, 1040000);
-    $transcriptionBox = pptxAdaptiveTextBox($transcription, 4800, 1200000);
-    $hintBox = pptxAdaptiveTextBox($hint, 4400, 2050000);
+    $transcriptionBox = pptxAdaptiveTextBox($transcription, 3200, 1200000);
+    $hintBox = pptxAdaptiveTextBox($hint, 2934, 2050000);
 
     return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
         . '<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">'
@@ -329,7 +329,7 @@ function pptxQuizSlideXml(array $slide, int $slideNumber): string
             10363200,
             min(620000, $sentenceHeight),
             ($offset + $index + 1) . '. ' . $sentence,
-            3700,
+            2467,
             '1E2633'
         );
     }
@@ -358,7 +358,7 @@ function pptxAnswerSlideXml(array $slide, int $slideNumber): string
         $sentence = trim((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? ''));
         $word = (string)$card['english_word'];
         $numbered = ($offset + $index + 1) . '. ' . $sentence;
-        $box = pptxAdaptiveTextBox($numbered, 4000, $rowHeight);
+        $box = pptxAdaptiveTextBox($numbered, 2667, $rowHeight);
         $shape = pptxTextOnlyXml(40 + $index, 'Answer ' . ($offset + $index + 1), 609600, 900000 + $index * $rowHeight, 10972800, $rowHeight, $numbered, $box['font'], '1E2633');
         if ($word !== '' && preg_match('/(?<![\p{L}\p{N}])' . preg_quote($word, '/') . '(?![\p{L}\p{N}])/iu', $numbered, $match, PREG_OFFSET_CAPTURE)) {
             $position = $match[0][1];

@@ -84,8 +84,8 @@ for ($i = 1; $i <= 30; $i++) {
 }
 $titleSlide = $zip->getFromName('ppt/slides/slide3.xml');
 checkWebsite(str_contains($titleSlide, 'sz="10400"'), 'Presentation word font is not exactly doubled');
-checkWebsite(str_contains($titleSlide, 'sz="9600"'), 'Presentation transcription font was not doubled again');
+checkWebsite(str_contains($titleSlide, 'sz="6400"'), 'Presentation transcription font has the wrong adjusted size');
 $quizSlide = $zip->getFromName('ppt/slides/slide22.xml');
-checkWebsite(str_contains($quizSlide, 'sz="5200"') && str_contains($quizSlide, 'sz="2900"') && str_contains($quizSlide, 'sz="7400"'), 'Quiz fonts are not correctly scaled');
+checkWebsite(str_contains($quizSlide, 'sz="5200"') && str_contains($quizSlide, 'sz="2900"') && str_contains($quizSlide, 'sz="4934"'), 'Quiz fonts are not correctly scaled');
 $zip->close();
 echo "PASS: providers, phrases, storage, adaptive layout, quiz, answers, 30-slide PPTX\n";
