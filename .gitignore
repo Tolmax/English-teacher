@@ -38,3 +38,4 @@ known_hosts
 website/database/*.sqlite*
 website/storage/
 website/uploads/
+website/dev-router.php

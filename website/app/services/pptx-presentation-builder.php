@@ -41,17 +41,17 @@ function buildWordPresentationPptx(array $presentation, array $cards, string $ou
     $quizCards = array_values(array_filter($cards, static fn(array $card): bool => trim((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? '')) !== ''));
     $quizWords = array_map(static fn(array $card): string => (string)($card['english_word'] ?? ''), $quizCards);
     shuffle($quizWords);
-    foreach (array_chunk($quizCards, 6) as $quizPageIndex => $pageCards) {
+    foreach (array_chunk($quizCards, 3) as $quizPageIndex => $pageCards) {
         $slides[] = [
             'type' => 'quiz',
             'words' => $quizWords,
             'cards' => $pageCards,
-            'offset' => $quizPageIndex * 6,
+            'offset' => $quizPageIndex * 3,
         ];
     }
 
-    foreach (array_chunk($quizCards, 10) as $answerPageIndex => $answerCards) {
-        $slides[] = ['type' => 'answers', 'cards' => $answerCards, 'offset' => $answerPageIndex * 10];
+    foreach (array_chunk($quizCards, 5) as $answerPageIndex => $answerCards) {
+        $slides[] = ['type' => 'answers', 'cards' => $answerCards, 'offset' => $answerPageIndex * 5];
     }
 
     $zip->addFromString('[Content_Types].xml', pptxContentTypesXml(count($slides)));
@@ -206,9 +206,9 @@ function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): 
             . '<p:cSld><p:spTree>'
             . pptxGroupShapeXml()
             . $coverImage
-            . pptxTextOnlyXml(4, 'Cover title', 7350000, 1180000, 3700000, 2200000, $title, 3100, '1D4F91', true)
-            . pptxTextOnlyXml(5, 'Cover subtitle', 7350000, 3620000, 3700000, 520000, $transcription, 2000, '536177')
-            . pptxTextOnlyXml(6, 'Cover hint', 7350000, 4200000, 3700000, 520000, $hint, 1900, '6B7890')
+            . pptxTextOnlyXml(4, 'Cover title', 6900000, 750000, 4650000, 2900000, $title, 3100, '1D4F91', true)
+            . pptxTextOnlyXml(5, 'Cover subtitle', 6900000, 3900000, 4650000, 850000, $transcription, 2000, '536177')
+            . pptxTextOnlyXml(6, 'Cover hint', 6900000, 4900000, 4650000, 700000, $hint, 1900, '6B7890')
             . '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
     }
 
@@ -241,9 +241,9 @@ function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): 
         . '<p:cSld><p:spTree>'
         . pptxGroupShapeXml()
         . pptxShapeXml(2, 'Background', 0, 0, 12192000, 6858000, 'F6F8FC', 'F6F8FC', '')
-        . pptxShapeXml(4, 'Word', $titleBox['x'], 1150000, $titleBox['width'], 1040000, 'FFFFFF', 'FFFFFF', $title, $titleBox['font'], '1D4F91', true)
-        . pptxShapeXml(5, 'Transcription', $transcriptionBox['x'], 2440000, $transcriptionBox['width'], 700000, 'FFFFFF', 'FFFFFF', $transcription, $transcriptionBox['font'], '536177')
-        . pptxShapeXml(6, 'Hint', $hintBox['x'], 3470000, $hintBox['width'], 1700000, 'FFFFFF', 'D8E2F1', $hint, $hintBox['font'], '1E2633')
+        . pptxShapeXml(4, 'Word', $titleBox['x'], 450000, $titleBox['width'], 2300000, 'FFFFFF', 'FFFFFF', $title, $titleBox['font'], '1D4F91', true)
+        . pptxShapeXml(5, 'Transcription', $transcriptionBox['x'], 2800000, $transcriptionBox['width'], 850000, 'FFFFFF', 'FFFFFF', $transcription, $transcriptionBox['font'], '536177')
+        . pptxShapeXml(6, 'Hint', $hintBox['x'], 3850000, $hintBox['width'], 2050000, 'FFFFFF', 'D8E2F1', $hint, $hintBox['font'], '1E2633')
         . pptxShapeXml(7, 'Page', 10700000, 6240000, 900000, 300000, 'F6F8FC', 'F6F8FC', (string)$slideNumber, 1400, '6B7890')
         . '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
 }
@@ -283,27 +283,38 @@ function pptxQuizSlideXml(array $slide, int $slideNumber): string
         ['FFE8D8', 'A34A16'],
     ];
 
-    $wordCount = count($words);
-    $columns = max(1, min(5, $wordCount));
-    $rows = (int)ceil($wordCount / $columns);
     $marginX = 457200;
     $gapX = 91440;
-    $cloudWidth = (int)floor((12192000 - ($marginX * 2) - ($gapX * ($columns - 1))) / $columns);
-    $cloudHeight = $rows <= 2 ? 650000 : 520000;
-    $cloudGapY = 65000;
-    $cloudTop = 650000;
+    $fullWidth = 12192000 - ($marginX * 2);
+    $columns = 3;
+    $cloudWidth = (int)floor(($fullWidth - ($gapX * ($columns - 1))) / $columns);
+    $cloudHeight = 720000;
+    $cloudGapY = 45000;
+    $cloudTop = 900000;
 
     $clouds = '';
-    foreach ($words as $index => $word) {
-        $column = $index % $columns;
-        $row = intdiv($index, $columns);
+    $longWords = array_values(array_filter($words, static fn($word): bool => mb_strlen((string)$word, 'UTF-8') > 28));
+    $shortWords = array_values(array_filter($words, static fn($word): bool => mb_strlen((string)$word, 'UTF-8') <= 28));
+    $layoutWords = [];
+    foreach ($longWords as $word) {
+        $layoutWords[] = ['word' => $word, 'column' => 0, 'columns' => 3];
+    }
+    foreach ($shortWords as $index => $word) {
+        $layoutWords[] = ['word' => $word, 'column' => $index % $columns, 'columns' => 1];
+    }
+    $longRows = count($longWords);
+    foreach ($layoutWords as $index => $item) {
+        $isLong = $item['columns'] === 3;
+        $row = $isLong ? $index : $longRows + intdiv($index - $longRows, $columns);
+        $column = (int)$item['column'];
         $x = $marginX + ($column * ($cloudWidth + $gapX));
         $y = $cloudTop + ($row * ($cloudHeight + $cloudGapY));
         [$fill, $fontColor] = $palette[$index % count($palette)];
-        $clouds .= pptxVectorShapeXml(10 + $index, 'Word cloud ' . ($index + 1), $x, $y, $cloudWidth, $cloudHeight, 'cloud', $fill, $fill, (string)$word, 1450, $fontColor, true);
+        $clouds .= pptxVectorShapeXml(10 + $index, 'Word cloud ' . ($index + 1), $x, $y, $isLong ? $fullWidth : $cloudWidth, $cloudHeight, 'cloud', $fill, $fill, (string)$item['word'], 1450, $fontColor, true);
     }
 
-    $sentencesTop = max(2900000, $cloudTop + ($rows * ($cloudHeight + $cloudGapY)) + 180000);
+    $rows = $longRows + (int)ceil(count($shortWords) / $columns);
+    $sentencesTop = max(3000000, $cloudTop + ($rows * ($cloudHeight + $cloudGapY)) + 100000);
     $availableHeight = 6100000 - $sentencesTop;
     $sentenceHeight = (int)floor($availableHeight / max(1, count($cards)));
     $sentences = '';
@@ -328,7 +339,7 @@ function pptxQuizSlideXml(array $slide, int $slideNumber): string
         . '<p:cSld><p:spTree>'
         . pptxGroupShapeXml()
         . pptxShapeXml(2, 'Background', 0, 0, 12192000, 6858000, 'F6F8FC', 'F6F8FC', '')
-        . pptxTextOnlyXml(3, 'Quiz title', 609600, 100000, 10972800, 430000, 'Complete the sentences', 2600, '1D4F91', true)
+        . pptxTextOnlyXml(3, 'Quiz title', 609600, 80000, 10972800, 700000, 'Complete the sentences', 2600, '1D4F91', true)
         . $clouds
         . $sentences
         . pptxShapeXml(8, 'Page', 10700000, 6240000, 900000, 300000, 'F6F8FC', 'F6F8FC', (string)$slideNumber, 1400, '6B7890')
@@ -354,7 +365,7 @@ function pptxAnswerSlideXml(array $slide, int $slideNumber): string
             $answer = $match[0][0];
             $runs = '';
             foreach ([[substr($numbered, 0, $position), false], [$answer, true], [substr($numbered, $position + strlen($answer)), false]] as [$text, $highlight]) {
-                $runs .= '<a:r><a:rPr lang="en-US" sz="' . $box['font'] . '"' . ($highlight ? ' b="1"' : '') . '><a:solidFill><a:srgbClr val="' . ($highlight ? '087F5B' : '1E2633') . '"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t xml:space="preserve">' . pptxXml($text) . '</a:t></a:r>';
+                $runs .= '<a:r><a:rPr lang="en-US" sz="' . pptxProjectorFontSize($box['font']) . '"' . ($highlight ? ' b="1"' : '') . '><a:solidFill><a:srgbClr val="' . ($highlight ? '087F5B' : '1E2633') . '"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t xml:space="preserve">' . pptxXml($text) . '</a:t></a:r>';
             }
             $shape = preg_replace('/<a:r>.*?<\/a:r>/s', str_replace(['\\', '$'], ['\\\\', '\\$'], $runs), $shape, 1) ?? $shape;
         }
@@ -396,6 +407,7 @@ function pptxTextOnlyXml(
     string $fontColor,
     bool $bold = false
 ): string {
+    $fontSize = pptxProjectorFontSize($fontSize);
     $boldAttr = $bold ? ' b="1"' : '';
 
     return '<p:sp>'
@@ -456,6 +468,7 @@ function pptxVectorShapeXml(
     string $fontColor = '1E2633',
     bool $bold = false
 ): string {
+    $fontSize = pptxProjectorFontSize($fontSize);
     $text = pptxXml($text);
     $boldAttr = $bold ? ' b="1"' : '';
     $textBody = $text === ''
@@ -495,6 +508,7 @@ function pptxShapeXml(
     string $fontColor = '1E2633',
     bool $bold = false
 ): string {
+    $fontSize = pptxProjectorFontSize($fontSize);
     $text = pptxXml($text);
     $boldAttr = $bold ? ' b="1"' : '';
 
@@ -509,6 +523,11 @@ function pptxShapeXml(
         . '<a:solidFill><a:srgbClr val="' . $fontColor . '"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr>'
         . '<a:t>' . $text . '</a:t></a:r><a:endParaRPr lang="en-US"/></a:p>'
         . '</p:txBody></p:sp>';
+}
+
+function pptxProjectorFontSize(int $fontSize): int
+{
+    return $fontSize * 2;
 }
 
 function pptxCoreXml(string $title): string

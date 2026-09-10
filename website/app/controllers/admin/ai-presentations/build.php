@@ -14,7 +14,47 @@ requirePresentationCsrf();
 $presentation = getAiWordPresentationById($presentationId);
 requireFound($presentation);
 
-$cards = aiWordPresentationCards($presentation);
+$submittedCards = array_key_exists('cards', $_POST)
+    ? normalizeAiWordPresentationCards($_POST['cards'])
+    : aiWordPresentationCards($presentation);
+
+if (array_key_exists('cards', $_POST)) {
+    $submittedData = [
+        'class_id' => (int)($_POST['class_id'] ?? $presentation['class_id']),
+        'title' => trim((string)($_POST['title'] ?? $presentation['title'])),
+        'source_words_text' => array_key_exists('source_words_text', $_POST)
+            ? trim((string)$_POST['source_words_text'])
+            : aiWordPresentationSourceWordsText($presentation),
+    ];
+    $submittedErrors = array_merge(
+        validateAiWordPresentationData($submittedData),
+        validateAiWordPresentationCardsData($submittedCards)
+    );
+    if ($submittedErrors !== []) {
+        setFlash('admin_error', (string)reset($submittedErrors));
+        redirectTo('admin/ai-presentations/' . $presentationId . '/edit');
+    }
+    if (getLearningClassById((int)$submittedData['class_id']) === false) {
+        setFlash('admin_error', 'Выберите существующий класс.');
+        redirectTo('admin/ai-presentations/' . $presentationId . '/edit');
+    }
+
+    updateAiWordPresentation($presentationId, [
+        'material_id' => (int)($presentation['material_id'] ?? 0),
+        'class_id' => (int)$submittedData['class_id'],
+        'title' => $submittedData['title'],
+        'source_words' => normalizeAiWordPresentationWords($submittedData['source_words_text']),
+        'cards_json' => $submittedCards,
+        'pptx_file_id' => (int)($presentation['pptx_file_id'] ?? 0),
+        'status' => (string)($presentation['status'] ?? 'ready'),
+        'model' => (string)($presentation['model'] ?? ''),
+        'response_id' => (string)($presentation['response_id'] ?? ''),
+    ]);
+    $presentation = getAiWordPresentationById($presentationId);
+    requireFound($presentation);
+}
+
+$cards = $submittedCards;
 if (empty($cards)) {
     setFlash('admin_error', 'Сначала сгенерируйте и проверьте карточки презентации.');
     redirectTo('admin/ai-presentations/' . $presentationId . '/edit');
@@ -38,6 +78,8 @@ try {
 
     $materialId = (int)($presentation['material_id'] ?? 0);
     if ($materialId > 0 && getMaterialById($materialId) !== false) {
+        $existingMaterial = getMaterialById($materialId);
+        $materialData['is_published'] = (int)($existingMaterial['is_published'] ?? 0);
         updateMaterial($materialId, $materialData);
     } else {
         $materialId = createMaterial($materialData);
@@ -79,7 +121,7 @@ try {
     );
     publishAiWordPresentation($presentationId, $materialId, $fileId);
 
-    setFlash('admin', 'PPTX собран. Презентация доступна в админке и не показывается на странице класса.');
+    setFlash('admin', 'PPTX и колода собраны. Колоду можно отдельно опубликовать на странице класса.');
 } catch (Throwable $exception) {
     if ($filePath !== '' && is_file($filePath)) {
         unlink($filePath);

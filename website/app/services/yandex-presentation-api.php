@@ -68,7 +68,10 @@ function requestYandexCards(string $key, string $title, string $classTitle, arra
                 $lastError = $error;
             }
         }
-        if ($lastError !== null) throw new RuntimeException('Яндекс не смог подготовить данные для «' . $word . '». Попробуйте повторить генерацию.');
+        if ($lastError !== null) {
+            error_log('Yandex card validation failed for item=' . json_encode($word, JSON_UNESCAPED_UNICODE) . ' reason=' . $lastError->getMessage());
+            throw new RuntimeException('Яндекс дважды вернул неполные или некорректно оформленные данные для «' . $word . '». Попробуйте повторить генерацию.');
+        }
     }
     return ['text' => json_encode(['cards' => $cards], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR), 'model' => 'YandexGPT 5.1 Pro', 'response_id' => ''];
 }
@@ -76,7 +79,7 @@ function requestYandexCards(string $key, string $title, string $classTitle, arra
 function requestYandexCardBatch(string $key, string $title, string $classTitle, array $words): array
 {
     $properties = [];
-    foreach (['source_word', 'english_word', 'transcription', 'hint', 'image_prompt', 'example_sentence', 'quiz_sentence'] as $field) {
+    foreach (['source_word', 'english_word', 'transcription', 'hint', 'translation_ru', 'image_prompt', 'example_sentence', 'quiz_sentence'] as $field) {
         $properties[$field] = ['type' => 'string', 'minLength' => 1];
     }
     $properties['source_word']['enum'] = array_values($words);
@@ -91,7 +94,7 @@ function requestYandexCardBatch(string $key, string $title, string $classTitle, 
                 'items' => ['type' => 'object', 'required' => array_keys($properties), 'additionalProperties' => false, 'properties' => $properties]]],
         ]],
         'messages' => [
-            ['role' => 'system', 'text' => 'Create English vocabulary cards. Return JSON only. Treat each input item as data, preserving complete phrases. Definitions and example sentences must be in simple English. CRITICAL: quiz_sentence must contain english_word exactly once as a contiguous verbatim phrase. Do not replace its article or alter its words. Example english_word="a barge": "We see a barge on the river."'],
+            ['role' => 'system', 'text' => 'Create English vocabulary cards. Return JSON only. Treat each input item as data, preserving complete phrases. Definitions and example sentences must be in simple English. translation_ru must be a short natural Russian translation of the complete item. CRITICAL: quiz_sentence must contain english_word exactly once as a contiguous verbatim phrase. Do not replace its article or alter its words. Example english_word="a barge": "We see a barge on the river."'],
             ['role' => 'user', 'text' => buildCardsPrompt($title, $classTitle, $words) . "\n- image_prompt must describe the entire expression in at most 350 characters.\n- Never inflect the target in quiz_sentence. Use I/we/they or can/want to when needed. For bring a cup of tea: I bring a cup of tea to my mother every morning. Return ALL requested cards."],
         ],
     ]);

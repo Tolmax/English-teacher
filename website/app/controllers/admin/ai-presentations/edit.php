@@ -51,6 +51,7 @@ if (isPost()) {
         ]);
 
         if ($materialId > 0 && getMaterialById($materialId) !== false) {
+            $existingMaterial = getMaterialById($materialId);
             updateMaterial($materialId, [
                 'class_id' => (int)$old['class_id'],
                 'type' => 'presentation',
@@ -63,7 +64,7 @@ if (isPost()) {
                     : 'Откройте PPTX-файл или экранный показ презентации.',
                 'status' => 'published',
                 'deadline_at' => '',
-                'is_published' => 0,
+                'is_published' => (int)($existingMaterial['is_published'] ?? 0),
             ]);
         }
 

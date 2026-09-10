@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= HOST ?>assets/css/blocks/presentation-slides.css?v=20260909">
+<link rel="stylesheet" href="<?= HOST ?>assets/css/blocks/presentation-slides.css?v=20260910-2">
 <div class="presentation-player" data-presentation-player>
   <div class="presentation-player__viewport">
     <?php foreach ($presentationSlides as $index => $card): ?>
@@ -13,7 +13,7 @@
         </div>
         <?php elseif ($card['type'] === 'text'): ?>
         <div class="presentation-slide__content">
-          <p class="presentation-slide__eyebrow">Card <?= (int)$index + 1 ?></p>
+          <p class="presentation-slide__eyebrow">Card <?= (int)($card['card_number'] ?? (intdiv($index, 2) + 1)) ?></p>
           <h2><?= e((string)($card['english_word'] ?? '')) ?></h2>
           <p class="presentation-slide__transcription"><?= e((string)($card['transcription'] ?? '')) ?></p>
           <p class="presentation-slide__hint"><?= e((string)($card['hint'] ?? '')) ?></p>

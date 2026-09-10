@@ -21,7 +21,7 @@ include ROOT . 'templates/partials/admin-header.tpl';
           <div class="section__header section__header--inline">
             <div>
               <h2 id="ai-presentations-list-title">Список презентаций</h2>
-              <p class="section__lead">Презентации хранятся в админке и не появляются на страницах классов как задания.</p>
+              <p class="section__lead">Здесь можно создать презентацию, опубликовать или скрыть связанную колоду карточек и удалить весь комплект.</p>
             </div>
             <a class="button button--primary" href="<?= HOST ?>admin/ai-presentations/create">Новая презентация</a>
           </div>

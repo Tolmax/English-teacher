@@ -319,27 +319,3 @@ VALUES
     (4, '7', '7', 'Past Simple, irregular verbs and mini-tests.', 1),
     (5, '8', '8', 'Материалы и задания для 8 класса.', 1),
     (6, '10', '10', 'Revision and test preparation.', 1);
-
-INSERT OR IGNORE INTO materials (id, class_id, type, title, description, content, status, deadline_at, is_published)
-VALUES
-    (1, 4, 'homework', 'Workbook: page 42, exercises 5-7', 'Repeat irregular verbs and complete the mini-test.', 'Do exercises 5-7 and prepare for a short verbs quiz.', 'deadline', '2026-06-14', 1),
-    (2, 4, 'material', 'Past Simple: rule and examples', 'Short grammar note with examples.', 'Use did for questions and did not for negatives.', 'new', NULL, 1),
-    (3, 2, 'homework', 'School subjects vocabulary', 'Learn new words and complete matching exercise.', 'Write 8 sentences about your school timetable.', 'new', '2026-06-15', 1);
-
-INSERT OR IGNORE INTO practice_tasks (id, class_id, title, description, is_published)
-VALUES
-    (1, 4, 'Past Simple mini-test', 'Choose the correct verb form and send the result to the teacher.', 1);
-
-INSERT OR IGNORE INTO practice_questions (id, task_id, question, options_json, correct_option, explanation, sort_order)
-VALUES
-    (1, 1, 'Choose the correct form: She ___ to school yesterday.', '["go", "went", "goes"]', 1, 'In Past Simple the correct form is went.', 1),
-    (2, 1, 'Choose the correct helper: ___ you watch the film?', '["Do", "Did", "Does"]', 1, 'Past Simple questions use did.', 2);
-
-INSERT OR IGNORE INTO submissions (id, task_id, class_id, student_name, student_contact, score, answers_json, submitted_at)
-VALUES
-    (1, 1, 4, 'Анна Петрова', '', 8, '[1,1]', datetime('now')),
-    (2, 1, 4, 'Михаил Ким', '', 6, '[0,1]', datetime('now'));
-
-INSERT OR IGNORE INTO student_questions (id, class_id, student_name, question, status)
-VALUES
-    (1, 4, 'Анна Петрова', 'Когда использовать did?', 'new');

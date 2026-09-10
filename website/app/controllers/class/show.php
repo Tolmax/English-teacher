@@ -3,6 +3,7 @@
 require ROOT . 'app/models/class.php';
 require ROOT . 'app/models/ai-teaching-material.php';
 require ROOT . 'app/models/ai-interactive-test.php';
+require ROOT . 'app/models/ai-word-presentation.php';
 require ROOT . 'app/models/calendar-event.php';
 require ROOT . 'app/models/material.php';
 require ROOT . 'app/models/material-file.php';
@@ -73,6 +74,7 @@ renderTemplate('pages/class/show.tpl', [
     'lessonMaterials' => $lessonMaterials,
     'aiLessonMaterials' => getPublishedAiTeachingMaterialsByClassTitle((string)$learningClass['title']),
     'aiTests' => getPublishedAiInteractiveTestsByClassTitle((string)$learningClass['title']),
+    'flashcardDecks' => getPublishedAiWordPresentationDecksByClassId((int)$learningClass['id']),
     'announcements' => $announcements,
     'archivedMaterials' => $archivedMaterials,
     'filesByMaterial' => $filesByMaterial,

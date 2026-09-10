@@ -67,7 +67,7 @@ function requestPresentationCards(string $apiKey, string $title, string $classTi
             'The teacher input may be a single word, a multi-word expression, or a phrase with parentheses.',
             'Treat every input line as one indivisible learning item and preserve it verbatim.',
             'Return strict JSON only. Do not use markdown. Do not mention API keys or internal settings.',
-            'For each learning item, return source_word, english_word, transcription, a simple English definition in hint, image_prompt in English, and example_sentence in English.',
+            'For each learning item, return source_word, english_word, transcription, a simple English definition in hint, translation_ru in Russian, image_prompt in English, and example_sentence in English.',
         ]),
         'input' => buildCardsPrompt($title, $classTitle, $sourceWords),
     ];
@@ -83,7 +83,7 @@ function requestPresentationCards(string $apiKey, string $title, string $classTi
 
 function buildCardsPrompt(string $title, string $classTitle, array $sourceWords): string
 {
-    $example = '{"cards":[{"source_word":"lion","english_word":"lion","transcription":"[ˈlaɪən]","hint":"A large wild cat with a mane.","image_prompt":"A friendly lion standing in a sunny savanna, clear educational flashcard style, no text.","example_sentence":"The lion sleeps under a shady tree."}]}';
+    $example = '{"cards":[{"source_word":"lion","english_word":"lion","transcription":"[ˈlaɪən]","hint":"A large wild cat with a mane.","translation_ru":"лев","image_prompt":"A friendly lion standing in a sunny savanna, clear educational flashcard style, no text.","example_sentence":"The lion sleeps under a shady tree.","quiz_sentence":"A lion sleeps under a shady tree."}]}';
 
     return implode("\n", [
         'Presentation title: ' . $title,
@@ -100,6 +100,7 @@ function buildCardsPrompt(string $title, string $classTitle, array $sourceWords)
         '- source_word and english_word must both reproduce the complete teacher learning item verbatim; do not shorten, paraphrase, split, or remove parentheses;',
         '- transcription must be short IPA in square brackets;',
         '- hint must be a short and simple definition written only in English; do not translate it into Russian;',
+        '- translation_ru must be a short, natural Russian translation of the complete learning item; it is shown only after a flashcard is flipped;',
         '- image_prompt must describe a concrete scene that visually represents the entire word or expression, and must request no letters, no text, no logo, no watermark.',
         '- example_sentence must be one short, easy English sentence for pupils;',
         '- example_sentence must be natural English; you may add articles or pronouns and inflect verbs as necessary;',
@@ -247,7 +248,16 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
         }
 
         $returnedSource = normalizeAiWordPresentationCardText((string)($card['source_word'] ?? ''));
+        $returnedEnglish = normalizeAiWordPresentationCardText((string)($card['english_word'] ?? ''));
         $key = cardSourceKey($returnedSource);
+        if (!isset($expected[$key])) {
+            $key = cardSourceKey($returnedEnglish);
+        }
+        // Yandex is requested one item at a time. If it paraphrases only the
+        // identifier, the generated content still belongs to that sole item.
+        if (!isset($expected[$key]) && count($expected) === 1 && count($cards) === 1) {
+            $key = array_key_first($expected);
+        }
         if (!isset($expected[$key])) {
             continue;
         }
@@ -256,16 +266,36 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
         $englishWord = $sourceWord;
         $transcription = normalizeAiWordPresentationCardText((string)($card['transcription'] ?? ''));
         $hint = normalizeAiWordPresentationCardText((string)($card['hint'] ?? ''));
+        $translationRu = normalizeAiWordPresentationCardText((string)($card['translation_ru'] ?? ''));
         $imagePrompt = normalizeAiWordPresentationCardText((string)($card['image_prompt'] ?? ''));
         $exampleSentence = normalizeAiWordPresentationCardText((string)($card['example_sentence'] ?? ''));
         $quizSentence = normalizeAiWordPresentationCardText((string)($card['quiz_sentence'] ?? $exampleSentence));
 
-        if ($sourceWord === '' || $englishWord === '' || $transcription === '' || $hint === '' || $imagePrompt === '' || $exampleSentence === '') {
+        // Keep a usable card when the model omits a presentational field. The
+        // pronunciation and translation are factual learning content, so an
+        // empty value there still triggers a fresh model request.
+        if ($hint === '') {
+            $hint = 'An English word or expression used in this lesson.';
+        }
+        if ($imagePrompt === '') {
+            $imagePrompt = buildFallbackCardImagePrompt($englishWord);
+        }
+        if ($exampleSentence === '') {
+            $exampleSentence = buildFallbackCardSentence($englishWord);
+        }
+
+        if ($sourceWord === '' || $englishWord === '' || $transcription === '' || $translationRu === '') {
             continue;
         }
 
-        if (preg_match_all('/(?<![\p{L}\p{N}])' . preg_quote($englishWord, '/') . '(?![\p{L}\p{N}])/iu', $quizSentence) !== 1) {
-            continue;
+        // Models sometimes inflect a verb, replace an article, omit the quiz
+        // sentence, or repeat the answer. Never discard the whole card for
+        // that formatting error: create a deterministic sentence containing
+        // the teacher's exact learning item once.
+        if (cardLearningItemOccurrenceCount($quizSentence, $englishWord) !== 1) {
+            $quizSentence = cardLearningItemOccurrenceCount($exampleSentence, $englishWord) === 1
+                ? $exampleSentence
+                : buildFallbackCardSentence($englishWord);
         }
 
         $normalized[$key] = [
@@ -273,6 +303,7 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
             'english_word' => $englishWord,
             'transcription' => $transcription,
             'hint' => $hint,
+            'translation_ru' => $translationRu,
             'image_prompt' => $imagePrompt,
             'example_sentence' => $exampleSentence,
             'quiz_sentence' => $quizSentence,
@@ -284,6 +315,27 @@ function parseCardsJson(string $text, array $sourceWords, bool $allowPartial = f
     }
 
     return $normalized;
+}
+
+function cardLearningItemOccurrenceCount(string $sentence, string $learningItem): int
+{
+    if ($sentence === '' || $learningItem === '') {
+        return 0;
+    }
+
+    return preg_match_all('/(?<![\p{L}\p{N}])' . preg_quote($learningItem, '/') . '(?![\p{L}\p{N}])/iu', $sentence) ?: 0;
+}
+
+function buildFallbackCardSentence(string $learningItem): string
+{
+    return 'Today\'s English expression is “' . $learningItem . '”.';
+}
+
+function buildFallbackCardImagePrompt(string $learningItem): string
+{
+    return 'A clear, friendly educational scene that visually represents the complete English expression “'
+        . $learningItem
+        . '”. No text, letters, logo, or watermark.';
 }
 
 function cardSourceKey(string $value): string

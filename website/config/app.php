@@ -58,9 +58,9 @@ define('ADMIN_EMAIL', 'admin@site.com');
 define('OPENAI_API_KEY', (string)(getenv('OPENAI_API_KEY') ?: ''));
 define('OPENAI_MODEL', (string)(getenv('OPENAI_MODEL') ?: 'gpt-4.1-mini'));
 define('OPENAI_IMAGE_MODEL', (string)(getenv('OPENAI_IMAGE_MODEL') ?: 'gpt-image-2'));
-define('AI_TEXT_PROVIDER', strtolower((string)(getenv('AI_TEXT_PROVIDER') ?: 'openai')));
-define('AI_IMAGE_PROVIDER', strtolower((string)(getenv('AI_IMAGE_PROVIDER') ?: 'openai')));
+define('AI_TEXT_PROVIDER', strtolower((string)(getenv('AI_TEXT_PROVIDER') ?: 'yandex')));
+define('AI_IMAGE_PROVIDER', strtolower((string)(getenv('AI_IMAGE_PROVIDER') ?: 'yandex')));
 define('YANDEX_API_KEY', (string)(getenv('YANDEX_API_KEY') ?: ''));
-define('YANDEX_FOLDER_ID', (string)(getenv('YANDEX_FOLDER_ID') ?: ''));
+define('YANDEX_FOLDER_ID', (string)(getenv('YANDEX_FOLDER_ID') ?: 'b1gun8kk36mc31tlbgpt'));
 session_start();
 

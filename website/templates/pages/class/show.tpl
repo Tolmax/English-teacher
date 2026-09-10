@@ -49,7 +49,7 @@ include ROOT . 'templates/partials/header.tpl';
           <section class="card" aria-labelledby="materials-title">
             <h2 id="materials-title">Пройти тест</h2>
             <ul class="material-list">
-              <?php if (empty($lessonMaterials) && empty($aiLessonMaterials) && empty($aiTests)): ?>
+              <?php if (empty($lessonMaterials) && empty($aiLessonMaterials) && empty($aiTests) && empty($flashcardDecks)): ?>
                 <li class="class-page-item"><p class="card__text">Тесты пока не добавлены.</p></li>
               <?php endif; ?>
               <?php foreach ($aiTests as $test): ?>
@@ -61,6 +61,16 @@ include ROOT . 'templates/partials/header.tpl';
                     <?php endif; ?>
                   </div>
                   <a class="button button--secondary button--small" href="<?= HOST ?>ai-tests/<?= e(rawurlencode($test['slug'])) ?>">Открыть тест</a>
+                </li>
+              <?php endforeach; ?>
+              <?php foreach ($flashcardDecks as $deck): ?>
+                <li class="class-page-item">
+                  <div>
+                    <span class="badge">Карточки</span>
+                    <h3><?= e((string)$deck['title']) ?></h3>
+                    <p class="card__text"><?= (int)count(aiWordPresentationDeckCards($deck)) ?> слов и выражений для повторения.</p>
+                  </div>
+                  <a class="button button--primary button--small" href="<?= HOST ?>flashcards/<?= (int)$deck['id'] ?>">Открыть колоду</a>
                 </li>
               <?php endforeach; ?>
               <?php foreach ($lessonMaterials as $material): ?>

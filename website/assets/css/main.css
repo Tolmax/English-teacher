@@ -11,6 +11,7 @@
 @import url("./blocks/nav.css");
 @import url("./blocks/calendar.css");
 @import url("./blocks/quiz.css?v=20260620-4");
+@import url("./blocks/flashcard-deck.css?v=20260910-4");
 @import url("./sections/hero.css");
 @import url("./sections/prototype-pages.css?v=20260620-4");
 @import url("./utils/utils.css");

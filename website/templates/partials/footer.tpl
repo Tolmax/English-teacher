@@ -13,6 +13,6 @@
       </div>
     </div>
   </dialog>
-  <script type="module" src="<?= HOST ?>assets/js/main.js?v=20260620-4"></script>
+  <script type="module" src="<?= HOST ?>assets/js/main.js?v=20260910-1"></script>
 </body>
 </html>

@@ -36,10 +36,15 @@ function showLoading(message) {
 }
 
 export function initFormLoading() {
-  const forms = document.querySelectorAll('form[data-loading-message]');
+  const forms = document.querySelectorAll('form');
 
   forms.forEach((form) => {
     form.addEventListener('submit', (event) => {
+      const message = event.submitter?.dataset.loadingMessage || form.dataset.loadingMessage;
+      if (!message) {
+        return;
+      }
+
       if (event.defaultPrevented) {
         return;
       }
@@ -48,7 +53,7 @@ export function initFormLoading() {
         return;
       }
 
-      showLoading(form.dataset.loadingMessage || 'Идёт обработка. Подождите, пожалуйста...');
+      showLoading(message);
     });
   });
 }

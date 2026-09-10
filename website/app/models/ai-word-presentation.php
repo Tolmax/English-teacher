@@ -65,6 +65,53 @@ function getPublishedAiWordPresentationsByMaterialIds(array $materialIds): array
     return $presentationsByMaterial;
 }
 
+function getPublishedAiWordPresentationDecksByClassId(int $classId): array
+{
+    $db = getDB();
+    $stmt = $db->prepare(
+        'SELECT ai_word_presentations.*
+         FROM ai_word_presentations
+         INNER JOIN materials ON materials.id = ai_word_presentations.material_id
+         WHERE ai_word_presentations.class_id = :class_id
+           AND ai_word_presentations.status = "published"
+           AND materials.is_published = 1
+         ORDER BY ai_word_presentations.updated_at DESC, ai_word_presentations.id DESC'
+    );
+    $stmt->execute([':class_id' => $classId]);
+
+    return array_values(array_filter($stmt->fetchAll(), static function (array $presentation): bool {
+        return aiWordPresentationDeckCards($presentation) !== [];
+    }));
+}
+
+function setAiWordPresentationDeckPublished(int $id, bool $published): void
+{
+    $presentation = getAiWordPresentationById($id);
+    if ($presentation === false || (int)($presentation['material_id'] ?? 0) <= 0) {
+        throw new RuntimeException('Сначала соберите презентацию и колоду.');
+    }
+
+    $db = getDB();
+    $stmt = $db->prepare('UPDATE materials SET is_published = :published, updated_at = datetime("now") WHERE id = :id');
+    $stmt->execute([
+        ':published' => $published ? 1 : 0,
+        ':id' => (int)$presentation['material_id'],
+    ]);
+}
+
+function aiWordPresentationDeckIsPublished(array $presentation): bool
+{
+    if ((int)($presentation['material_id'] ?? 0) <= 0) {
+        return false;
+    }
+
+    $db = getDB();
+    $stmt = $db->prepare('SELECT is_published FROM materials WHERE id = :id LIMIT 1');
+    $stmt->execute([':id' => (int)$presentation['material_id']]);
+
+    return (int)$stmt->fetchColumn() === 1;
+}
+
 function createAiWordPresentation(array $data): int
 {
     $db = getDB();
@@ -198,6 +245,15 @@ function aiWordPresentationCards(array $presentation): array
     return normalizeAiWordPresentationCards($cards);
 }
 
+function aiWordPresentationDeckCards(array $presentation): array
+{
+    return array_values(array_filter(aiWordPresentationCards($presentation), static function (array $card): bool {
+        return trim((string)($card['english_word'] ?? '')) !== ''
+            && trim((string)($card['translation_ru'] ?? '')) !== ''
+            && trim((string)($card['image_path'] ?? '')) !== '';
+    }));
+}
+
 function aiWordPresentationStatusLabel(string $status): string
 {
     return match ($status) {
@@ -261,6 +317,7 @@ function normalizeAiWordPresentationCards(array $cards): array
         $englishWord = normalizeAiWordPresentationCardText((string)($card['english_word'] ?? ''));
         $transcription = normalizeAiWordPresentationCardText((string)($card['transcription'] ?? ''));
         $hint = normalizeAiWordPresentationCardText((string)($card['hint'] ?? ''));
+        $translationRu = normalizeAiWordPresentationCardText((string)($card['translation_ru'] ?? ''));
         $imagePrompt = normalizeAiWordPresentationCardText((string)($card['image_prompt'] ?? ''));
         $imagePath = normalizeAiWordPresentationCardText((string)($card['image_path'] ?? ''));
         $imageMime = normalizeAiWordPresentationCardText((string)($card['image_mime'] ?? ''));
@@ -282,6 +339,7 @@ function normalizeAiWordPresentationCards(array $cards): array
             'english_word' => $englishWord,
             'transcription' => $transcription,
             'hint' => $hint,
+            'translation_ru' => $translationRu,
             'example_sentence' => normalizeAiWordPresentationCardText((string)($card['example_sentence'] ?? '')),
             'quiz_sentence' => normalizeAiWordPresentationCardText((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? '')),
             'image_prompt' => $imagePrompt,

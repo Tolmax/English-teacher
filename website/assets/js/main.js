@@ -10,6 +10,7 @@ import { initArchivePicker } from './modules/archive-picker.js';
 import { initRowLink } from './modules/row-link.js';
 import { initPresentationShow } from './modules/presentation-show.js';
 import { initFormLoading } from './modules/form-loading.js';
+import { initFlashcardDecks } from './modules/flashcard-deck.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initModal();
@@ -24,4 +25,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initRowLink();
   initPresentationShow();
   initFormLoading();
+  initFlashcardDecks();
 });

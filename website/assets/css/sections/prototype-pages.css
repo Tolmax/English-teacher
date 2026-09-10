@@ -991,7 +991,7 @@
   border: 1px solid rgba(49, 95, 184, 0.18);
   background: #eaf0fa;
   color: #536177;
-  font-size: 1.15rem;
+  font-size: 2.3rem;
   line-height: 1.45;
   text-align: center;
 }
@@ -1011,7 +1011,7 @@
 .presentation-slide__eyebrow {
   margin: 0;
   color: #536177;
-  font-size: 0.95rem;
+  font-size: 1.9rem;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -1019,14 +1019,14 @@
 .presentation-slide h2 {
   margin: 0;
   color: #315fb8;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(6rem, 14vw, 12rem);
   line-height: 0.95;
 }
 
 .presentation-slide__transcription {
   margin: 0;
   color: #536177;
-  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  font-size: clamp(2.8rem, 4.8vw, 4.4rem);
 }
 
 .presentation-slide__hint {
@@ -1036,7 +1036,7 @@
   border-radius: 14px;
   background: rgba(246, 248, 252, 0.92);
   color: #1e2633;
-  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  font-size: clamp(2.3rem, 3.6vw, 3rem);
   line-height: 1.4;
 }
 
@@ -1051,8 +1051,14 @@
   min-width: 5rem;
   color: #536177;
   font-weight: 700;
+  font-size: 2rem;
   text-align: center;
 }
+
+.presentation-slide__content > p:not([class]) { font-size: 2rem; }
+.presentation-slide__content li { font-size: 2rem; line-height: 1.35; }
+.presentation-slide__cloud { font-size: 2rem; }
+.presentation-player__controls .button { font-size: 2rem; }
 
 .presentation-file-player {
   display: grid;

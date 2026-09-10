@@ -13,6 +13,8 @@ $textProviders = getAiTextProviderOptions();
 $imageProviders = getAiImageProviderOptions();
 $generationMode = $textProviders[getAiTextProvider()]['label'] . (hasConfiguredAiTextProvider() ? '' : ' — ключ не настроен');
 $imageGenerationMode = $imageProviders[getAiImageProvider()]['label'] . (hasConfiguredAiImageProvider() ? '' : ' — ключ не настроен');
+$deckCards = $isEdit ? aiWordPresentationDeckCards($presentation) : [];
+$isDeckPublished = $isEdit && aiWordPresentationDeckIsPublished($presentation);
 include ROOT . 'templates/partials/admin-header.tpl';
 ?>
       <section class="stack" aria-labelledby="ai-presentation-form-title">
@@ -43,16 +45,22 @@ include ROOT . 'templates/partials/admin-header.tpl';
               Загружен готовый PPTX-файл. Для такой презентации генерация карточек на сайте не нужна.
             </div>
           <?php elseif (!$hasCards): ?>
-            <form class="admin-inline-action" action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/generate" method="post" data-loading-message="Идёт генерация карточек. Подождите, пожалуйста...">
-              <input type="hidden" name="csrf_token" value="<?= e(presentationCsrfToken()) ?>">
+            <div class="admin-inline-action">
               <label class="form__label" for="ai_provider">Провайдер карточек</label>
-              <select class="select" id="ai_provider" name="ai_provider">
+              <select class="select" id="ai_provider" name="ai_provider" form="ai-presentation-form">
                 <?php foreach ($textProviders as $key => $option): ?>
                   <option value="<?= e($key) ?>"<?= $key === getAiTextProvider() ? ' selected' : '' ?><?= !$option['configured'] ? ' disabled' : '' ?>><?= e($option['label']) ?><?= !$option['configured'] ? ' — не настроен' : '' ?></option>
                 <?php endforeach; ?>
               </select>
-              <button class="button button--primary" type="submit">Сгенерировать карточки</button>
-            </form>
+              <button
+                class="button button--primary"
+                type="submit"
+                form="ai-presentation-form"
+                formaction="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/generate"
+                formmethod="post"
+                data-loading-message="Идёт генерация карточек. Подождите, пожалуйста..."
+              >Сгенерировать карточки</button>
+            </div>
           <?php endif; ?>
 
           <?php if ($hasPptx): ?>
@@ -63,28 +71,66 @@ include ROOT . 'templates/partials/admin-header.tpl';
               <?php endif; ?>
               <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/download">Скачать PPTX</a>
             </div>
-          <?php elseif ($hasCards): ?>
+          <?php endif; ?>
+
+          <?php if ($hasCards): ?>
             <div class="admin-inline-action">
-              <form action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/build" method="post" data-loading-message="Идёт генерация картинок и сборка презентации. Это может занять немного времени...">
-                <input type="hidden" name="csrf_token" value="<?= e(presentationCsrfToken()) ?>">
-                <label class="form__label" for="ai_image_provider">Провайдер картинок</label>
-                <select class="select" id="ai_image_provider" name="ai_image_provider">
-                  <?php foreach ($imageProviders as $key => $option): ?>
-                    <?php if ($key === 'mock') continue; ?>
-                    <option value="<?= e($key) ?>"<?= $key === getAiImageProvider() ? ' selected' : '' ?><?= !$option['configured'] ? ' disabled' : '' ?>><?= e($option['label']) ?><?= !$option['configured'] ? ' — не настроен' : '' ?></option>
-                  <?php endforeach; ?>
-                </select>
-                <button class="button button--primary" type="submit">Собрать презентацию</button>
-              </form>
+              <label class="form__label" for="ai_image_provider">Провайдер картинок</label>
+              <select class="select" id="ai_image_provider" name="ai_image_provider" form="ai-presentation-form">
+                <?php foreach ($imageProviders as $key => $option): ?>
+                  <?php if ($key === 'mock') continue; ?>
+                  <option value="<?= e($key) ?>"<?= $key === getAiImageProvider() ? ' selected' : '' ?><?= !$option['configured'] ? ' disabled' : '' ?>><?= e($option['label']) ?><?= !$option['configured'] ? ' — не настроен' : '' ?></option>
+                <?php endforeach; ?>
+              </select>
+              <button
+                class="button button--primary"
+                type="submit"
+                form="ai-presentation-form"
+                formaction="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/build"
+                formmethod="post"
+                data-loading-message="Идёт генерация картинок и сборка презентации. Это может занять немного времени..."
+              ><?= $hasPptx ? 'Пересобрать презентацию' : 'Собрать презентацию' ?></button>
             </div>
           <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if ($isEdit && !empty($deckCards)): ?>
+          <section class="card stack" aria-labelledby="deck-management-title">
+            <div class="section__header">
+              <h2 id="deck-management-title">Колода карточек</h2>
+              <p class="section__lead">
+                Статус: <strong><?= $isDeckPublished ? 'опубликована на странице класса' : 'скрыта от учеников' ?></strong>.
+              </p>
+            </div>
+            <div class="cluster">
+              <?php if ($isDeckPublished): ?>
+                <a class="button button--secondary" href="<?= HOST ?>flashcards/<?= (int)$presentation['id'] ?>" target="_blank" rel="noopener">Открыть колоду</a>
+              <?php endif; ?>
+              <form action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/deck-publish" method="post">
+                <input type="hidden" name="csrf_token" value="<?= e(presentationCsrfToken()) ?>">
+                <input type="hidden" name="published" value="<?= $isDeckPublished ? '0' : '1' ?>">
+                <button class="button <?= $isDeckPublished ? 'button--secondary' : 'button--primary' ?>" type="submit"><?= $isDeckPublished ? 'Убрать колоду со страницы класса' : 'Опубликовать колоду на странице класса' ?></button>
+              </form>
+              <form action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/delete" method="post" data-confirm="Удалить презентацию, колоду, PPTX и все картинки без возможности восстановления?">
+                <button class="button button--danger" type="submit">Удалить презентацию и колоду</button>
+              </form>
+            </div>
+            <p class="form__hint">Колода использует слова и картинки презентации, поэтому полностью удалить только колоду отдельно нельзя. Можно скрыть её от учеников или удалить весь комплект.</p>
+          </section>
+        <?php elseif ($isEdit && $hasCards): ?>
+          <div class="alert alert--warning" role="status">
+            Колода появится после сборки презентации, когда для карточек будут созданы изображения.
+          </div>
         <?php endif; ?>
 
         <?php if (!$isEdit): ?>
           <p class="section__lead">Как создать: 1. Выберите класс и введите слова. 2. Нажмите «Перейти к генерации», затем «Сгенерировать карточки». 3. Проверьте карточки и нажмите «Собрать презентацию» — появится кнопка скачивания PPTX. Если у вас уже есть PPTX, просто загрузите его.</p>
         <?php endif; ?>
 
-        <form class="form card" action="<?= $actionUrl ?>" method="post" enctype="multipart/form-data" novalidate>
+        <form class="form card" id="ai-presentation-form" action="<?= $actionUrl ?>" method="post" enctype="multipart/form-data" novalidate>
+          <?php if ($isEdit): ?>
+            <input type="hidden" name="csrf_token" value="<?= e(presentationCsrfToken()) ?>">
+          <?php endif; ?>
           <div class="form__row">
             <div class="form__field">
               <label class="form__label" for="class_id">Класс <span aria-hidden="true">*</span></label>
@@ -170,6 +216,11 @@ include ROOT . 'templates/partials/admin-header.tpl';
                     </div>
 
                     <div class="form__field">
+                      <label class="form__label" for="card-<?= (int)$index ?>-translation">Перевод для обратной стороны карточки</label>
+                      <input class="input" type="text" id="card-<?= (int)$index ?>-translation" name="cards[<?= (int)$index ?>][translation_ru]" value="<?= e($card['translation_ru'] ?? '') ?>" required>
+                    </div>
+
+                    <div class="form__field">
                       <label class="form__label" for="card-<?= (int)$index ?>-example">Пример на английском</label>
                       <textarea class="textarea" id="card-<?= (int)$index ?>-example" name="cards[<?= (int)$index ?>][example_sentence]" rows="2"><?= e($card['example_sentence'] ?? '') ?></textarea>
                     </div>
@@ -187,15 +238,17 @@ include ROOT . 'templates/partials/admin-header.tpl';
             </section>
           <?php endif; ?>
 
-          <div class="card__actions">
-            <button class="button button--primary" type="submit"><?= $isEdit ? 'Сохранить изменения' : 'Перейти к генерации / загрузить PPTX' ?></button>
-            <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations">Отмена</a>
-          </div>
+          <?php if (!$isEdit || $isUploadedPptx): ?>
+            <div class="card__actions">
+              <button class="button button--primary" type="submit"><?= $isEdit ? 'Сохранить изменения' : 'Перейти к генерации / загрузить PPTX' ?></button>
+              <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations">Отмена</a>
+            </div>
+          <?php endif; ?>
         </form>
 
-        <?php if ($isEdit && !empty($presentation)): ?>
-          <form class="admin-inline-action" action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/delete" method="post" data-confirm="Удалить ИИ-презентацию, материал, PPTX и картинки?">
-            <button class="button button--danger" type="submit">Удалить</button>
+        <?php if ($isEdit && !empty($presentation) && empty($deckCards)): ?>
+          <form class="admin-inline-action" action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/delete" method="post" data-confirm="Удалить презентацию, колоду, PPTX и все картинки без возможности восстановления?">
+            <button class="button button--danger" type="submit">Удалить презентацию и колоду</button>
           </form>
         <?php endif; ?>
       </section>

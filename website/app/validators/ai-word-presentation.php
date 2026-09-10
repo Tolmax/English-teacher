@@ -67,6 +67,11 @@ function validateAiWordPresentationCardsData(array $cards): array
             break;
         }
 
+        if (trim((string)($card['translation_ru'] ?? '')) === '') {
+            $errors['cards'] = 'У каждой карточки должен быть перевод на русский язык для обратной стороны колоды.';
+            break;
+        }
+
         if (trim((string)($card['image_prompt'] ?? '')) === '') {
             $errors['cards'] = 'У каждой карточки должно быть описание картинки.';
             break;

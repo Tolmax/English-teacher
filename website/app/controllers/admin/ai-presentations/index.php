@@ -36,6 +36,11 @@ if (is_numeric($action) && ($segments[3] ?? '') === 'download') {
     return;
 }
 
+if (is_numeric($action) && ($segments[3] ?? '') === 'deck-publish') {
+    require ROOT . 'app/controllers/admin/ai-presentations/deck-publish.php';
+    return;
+}
+
 if (is_numeric($action) && ($segments[3] ?? '') === 'delete') {
     require ROOT . 'app/controllers/admin/ai-presentations/delete.php';
     return;
