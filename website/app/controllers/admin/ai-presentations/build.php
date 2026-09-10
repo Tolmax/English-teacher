@@ -71,7 +71,7 @@ try {
         'title' => (string)$presentation['title'],
         'description' => 'ИИ-презентация по словам для урока английского.',
         'content' => 'Откройте PPTX-файл или экранный показ презентации.',
-        'status' => 'published',
+        'status' => 'ready',
         'deadline_at' => '',
         'is_published' => 0,
     ];
@@ -119,7 +119,7 @@ try {
         (string)($presentation['model'] ?? ''),
         (string)($presentation['response_id'] ?? '')
     );
-    publishAiWordPresentation($presentationId, $materialId, $fileId);
+    completeAiWordPresentationBuild($presentationId, $materialId, $fileId);
 
     setFlash('admin', 'PPTX и колода собраны. Колоду можно отдельно опубликовать на странице класса.');
 } catch (Throwable $exception) {

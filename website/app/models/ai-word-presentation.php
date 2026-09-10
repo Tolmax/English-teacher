@@ -52,7 +52,7 @@ function getPublishedAiWordPresentationsByMaterialIds(array $materialIds): array
     $stmt = $db->prepare(
         'SELECT ai_word_presentations.*
          FROM ai_word_presentations
-         WHERE status = "published"
+         WHERE status IN ("ready", "published")
            AND material_id IN (' . $placeholders . ')'
     );
     $stmt->execute($materialIds);
@@ -73,7 +73,7 @@ function getPublishedAiWordPresentationDecksByClassId(int $classId): array
          FROM ai_word_presentations
          INNER JOIN materials ON materials.id = ai_word_presentations.material_id
          WHERE ai_word_presentations.class_id = :class_id
-           AND ai_word_presentations.status = "published"
+           AND ai_word_presentations.status IN ("ready", "published")
            AND materials.is_published = 1
          ORDER BY ai_word_presentations.updated_at DESC, ai_word_presentations.id DESC'
     );
@@ -170,14 +170,14 @@ function updateAiWordPresentationCards(int $id, array $cards, string $status, st
     ]);
 }
 
-function publishAiWordPresentation(int $id, int $materialId, int $pptxFileId): void
+function completeAiWordPresentationBuild(int $id, int $materialId, int $pptxFileId): void
 {
     $db = getDB();
     $stmt = $db->prepare(
         'UPDATE ai_word_presentations
          SET material_id = :material_id,
              pptx_file_id = :pptx_file_id,
-             status = "published",
+             status = "ready",
              updated_at = datetime("now")
          WHERE id = :id'
     );
@@ -257,8 +257,7 @@ function aiWordPresentationDeckCards(array $presentation): array
 function aiWordPresentationStatusLabel(string $status): string
 {
     return match ($status) {
-        'ready' => 'Готово',
-        'published' => 'Опубликовано',
+        'ready', 'published' => 'Готово',
         default => 'Черновик',
     };
 }

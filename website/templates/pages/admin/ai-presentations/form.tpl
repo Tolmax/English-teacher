@@ -65,10 +65,7 @@ include ROOT . 'templates/partials/admin-header.tpl';
 
           <?php if ($hasPptx): ?>
             <div class="admin-inline-action">
-              <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/show">Показать</a>
-              <?php if ($hasCards): ?>
-                <a class="button button--secondary" href="<?= HOST ?>presentation/<?= (int)$presentation['id'] ?>" target="_blank" rel="noopener">Открыть в отдельном окне</a>
-              <?php endif; ?>
+              <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/show" target="_blank" rel="noopener">Открыть показ для учителя</a>
               <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/download">Скачать PPTX</a>
             </div>
           <?php endif; ?>

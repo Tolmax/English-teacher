@@ -6,7 +6,7 @@ $presentationId = requireNumericId($segments[1] ?? null);
 $presentation = getAiWordPresentationById($presentationId);
 requireFound($presentation);
 
-if (($presentation['status'] ?? '') !== 'published' || !aiWordPresentationDeckIsPublished($presentation)) {
+if (!in_array((string)($presentation['status'] ?? ''), ['ready', 'published'], true) || !aiWordPresentationDeckIsPublished($presentation)) {
     abort404();
 }
 

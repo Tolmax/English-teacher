@@ -62,7 +62,7 @@ if (isPost()) {
                 'content' => $isUploadedPptx
                     ? 'Файл презентации доступен в админке для скачивания и показа с компьютера учителя.'
                     : 'Откройте PPTX-файл или экранный показ презентации.',
-                'status' => 'published',
+                'status' => 'ready',
                 'deadline_at' => '',
                 'is_published' => (int)($existingMaterial['is_published'] ?? 0),
             ]);

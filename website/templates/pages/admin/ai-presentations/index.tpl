@@ -68,7 +68,7 @@ include ROOT . 'templates/partials/admin-header.tpl';
                       <div class="cluster">
                         <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/edit">Редактировать</a>
                         <?php if (!empty($cards) || $hasPptx): ?>
-                          <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/show">Показать</a>
+                          <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/show" target="_blank" rel="noopener">Показать учителю</a>
                         <?php endif; ?>
                         <?php if ($hasPptx): ?>
                           <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/download">Скачать</a>

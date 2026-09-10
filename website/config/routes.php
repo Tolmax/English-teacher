@@ -9,7 +9,6 @@ $routes = [
     'extra-lessons' => ROOT . 'app/controllers/extra-lessons/index.php',
     'ai-materials' => ROOT . 'app/controllers/ai-materials/index.php',
     'ai-tests' => ROOT . 'app/controllers/ai-tests/index.php',
-    'presentation' => ROOT . 'app/controllers/presentation/show.php',
     'flashcards' => ROOT . 'app/controllers/flashcards/show.php',
     'admin'   => ROOT . 'app/controllers/admin/_router.php',
     '404'     => ROOT . 'app/controllers/not-found.php',

@@ -88,7 +88,7 @@ function createUploadedAiWordPresentation(array $data, array $pptxFile): int
         'title' => (string)$data['title'],
         'description' => 'Готовая PPTX-презентация, загруженная учителем.',
         'content' => 'Файл презентации доступен в админке для скачивания и показа с компьютера учителя.',
-        'status' => 'published',
+        'status' => 'ready',
         'deadline_at' => '',
         'is_published' => 0,
     ]);
@@ -111,7 +111,7 @@ function createUploadedAiWordPresentation(array $data, array $pptxFile): int
         'source_words' => [],
         'cards_json' => [],
         'pptx_file_id' => $fileId,
-        'status' => 'published',
+        'status' => 'ready',
         'model' => 'uploaded-pptx',
         'response_id' => '',
     ]);
