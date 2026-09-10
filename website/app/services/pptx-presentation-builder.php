@@ -41,17 +41,17 @@ function buildWordPresentationPptx(array $presentation, array $cards, string $ou
     $quizCards = array_values(array_filter($cards, static fn(array $card): bool => trim((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? '')) !== ''));
     $quizWords = array_map(static fn(array $card): string => (string)($card['english_word'] ?? ''), $quizCards);
     shuffle($quizWords);
-    foreach (array_chunk($quizCards, 3) as $quizPageIndex => $pageCards) {
+    foreach (array_chunk($quizCards, 2) as $quizPageIndex => $pageCards) {
         $slides[] = [
             'type' => 'quiz',
             'words' => $quizWords,
             'cards' => $pageCards,
-            'offset' => $quizPageIndex * 3,
+            'offset' => $quizPageIndex * 2,
         ];
     }
 
-    foreach (array_chunk($quizCards, 5) as $answerPageIndex => $answerCards) {
-        $slides[] = ['type' => 'answers', 'cards' => $answerCards, 'offset' => $answerPageIndex * 5];
+    foreach (array_chunk($quizCards, 3) as $answerPageIndex => $answerCards) {
+        $slides[] = ['type' => 'answers', 'cards' => $answerCards, 'offset' => $answerPageIndex * 3];
     }
 
     $zip->addFromString('[Content_Types].xml', pptxContentTypesXml(count($slides)));
@@ -233,8 +233,8 @@ function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): 
     }
 
     $titleBox = pptxAdaptiveTextBox($title, 5200, 1040000);
-    $transcriptionBox = pptxAdaptiveTextBox($transcription, 2400, 700000);
-    $hintBox = pptxAdaptiveTextBox($hint, 2200, 1700000);
+    $transcriptionBox = pptxAdaptiveTextBox($transcription, 4800, 1200000);
+    $hintBox = pptxAdaptiveTextBox($hint, 4400, 2050000);
 
     return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
         . '<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">'
@@ -242,8 +242,8 @@ function pptxSlideXml(array $slide, int $slideNumber, string $imageRelId = ''): 
         . pptxGroupShapeXml()
         . pptxShapeXml(2, 'Background', 0, 0, 12192000, 6858000, 'F6F8FC', 'F6F8FC', '')
         . pptxShapeXml(4, 'Word', $titleBox['x'], 450000, $titleBox['width'], 2300000, 'FFFFFF', 'FFFFFF', $title, $titleBox['font'], '1D4F91', true)
-        . pptxShapeXml(5, 'Transcription', $transcriptionBox['x'], 2800000, $transcriptionBox['width'], 850000, 'FFFFFF', 'FFFFFF', $transcription, $transcriptionBox['font'], '536177')
-        . pptxShapeXml(6, 'Hint', $hintBox['x'], 3850000, $hintBox['width'], 2050000, 'FFFFFF', 'D8E2F1', $hint, $hintBox['font'], '1E2633')
+        . pptxShapeXml(5, 'Transcription', $transcriptionBox['x'], 2750000, $transcriptionBox['width'], 1300000, 'FFFFFF', 'FFFFFF', $transcription, $transcriptionBox['font'], '536177')
+        . pptxShapeXml(6, 'Hint', $hintBox['x'], 4150000, $hintBox['width'], 2150000, 'FFFFFF', 'D8E2F1', $hint, $hintBox['font'], '1E2633')
         . pptxShapeXml(7, 'Page', 10700000, 6240000, 900000, 300000, 'F6F8FC', 'F6F8FC', (string)$slideNumber, 1400, '6B7890')
         . '</p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>';
 }
@@ -329,7 +329,7 @@ function pptxQuizSlideXml(array $slide, int $slideNumber): string
             10363200,
             min(620000, $sentenceHeight),
             ($offset + $index + 1) . '. ' . $sentence,
-            1850,
+            3700,
             '1E2633'
         );
     }
@@ -358,7 +358,7 @@ function pptxAnswerSlideXml(array $slide, int $slideNumber): string
         $sentence = trim((string)($card['quiz_sentence'] ?? $card['example_sentence'] ?? ''));
         $word = (string)$card['english_word'];
         $numbered = ($offset + $index + 1) . '. ' . $sentence;
-        $box = pptxAdaptiveTextBox($numbered, 2000, $rowHeight);
+        $box = pptxAdaptiveTextBox($numbered, 4000, $rowHeight);
         $shape = pptxTextOnlyXml(40 + $index, 'Answer ' . ($offset + $index + 1), 609600, 900000 + $index * $rowHeight, 10972800, $rowHeight, $numbered, $box['font'], '1E2633');
         if ($word !== '' && preg_match('/(?<![\p{L}\p{N}])' . preg_quote($word, '/') . '(?![\p{L}\p{N}])/iu', $numbered, $match, PREG_OFFSET_CAPTURE)) {
             $position = $match[0][1];

@@ -1026,7 +1026,7 @@
 .presentation-slide__transcription {
   margin: 0;
   color: #536177;
-  font-size: clamp(2.8rem, 4.8vw, 4.4rem);
+  font-size: clamp(5.6rem, 9.6vw, 8.8rem);
 }
 
 .presentation-slide__hint {
@@ -1036,7 +1036,7 @@
   border-radius: 14px;
   background: rgba(246, 248, 252, 0.92);
   color: #1e2633;
-  font-size: clamp(2.3rem, 3.6vw, 3rem);
+  font-size: clamp(4.6rem, 7.2vw, 6rem);
   line-height: 1.4;
 }
 
@@ -1055,8 +1055,8 @@
   text-align: center;
 }
 
-.presentation-slide__content > p:not([class]) { font-size: 2rem; }
-.presentation-slide__content li { font-size: 2rem; line-height: 1.35; }
+.presentation-slide__content > p:not([class]) { font-size: 4rem; }
+.presentation-slide__content li { font-size: 4rem; line-height: 1.35; }
 .presentation-slide__cloud { font-size: 2rem; }
 .presentation-player__controls .button { font-size: 2rem; }
 

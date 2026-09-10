@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?= HOST ?>assets/css/blocks/presentation-slides.css?v=20260910-2">
+<link rel="stylesheet" href="<?= HOST ?>assets/css/blocks/presentation-slides.css?v=20260910-3">
 <div class="presentation-player" data-presentation-player>
   <div class="presentation-player__viewport">
     <?php foreach ($presentationSlides as $index => $card): ?>

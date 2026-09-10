@@ -28,7 +28,7 @@ checkWebsite(aiWordPresentationCards(['cards_json' => encodeAiWordPresentationCa
 $longBox = pptxAdaptiveTextBox($words[5], 5200, 1400000);
 checkWebsite($longBox['width'] > 7315200, 'Long phrase box did not expand');
 $browserSlides = buildPresentationPlayerSlides($cards);
-checkWebsite(count($browserSlides) === 26, 'Wrong browser slide count');
+checkWebsite(count($browserSlides) === 29, 'Wrong browser slide count');
 foreach ($cards as $index => $_card) {
     checkWebsite(
         ($browserSlides[$index * 2]['card_number'] ?? 0) === $index + 1
@@ -75,15 +75,17 @@ $out = sys_get_temp_dir() . '/english-website-yandex-test.pptx';
 buildWordPresentationPptx($presentation, $cards, $out);
 $zip = new ZipArchive();
 $zip->open($out);
-$xml = $zip->getFromName('ppt/slides/slide26.xml') . $zip->getFromName('ppt/slides/slide27.xml');
+$xml = '';
+for ($i = 27; $i <= 30; $i++) $xml .= $zip->getFromName('ppt/slides/slide' . $i . '.xml');
 checkWebsite(str_contains($xml, 'Check your answers'), 'Answers missing');
 foreach ($cards as $card) checkWebsite(str_contains(strip_tags($xml), htmlspecialchars($card['quiz_sentence'], ENT_XML1 | ENT_QUOTES, 'UTF-8')), 'Answer sentence differs');
-for ($i = 1; $i <= 27; $i++) {
+for ($i = 1; $i <= 30; $i++) {
     checkWebsite((new DOMDocument())->loadXML($zip->getFromName('ppt/slides/slide' . $i . '.xml')), 'Invalid slide XML');
 }
 $titleSlide = $zip->getFromName('ppt/slides/slide3.xml');
 checkWebsite(str_contains($titleSlide, 'sz="10400"'), 'Presentation word font is not exactly doubled');
+checkWebsite(str_contains($titleSlide, 'sz="9600"'), 'Presentation transcription font was not doubled again');
 $quizSlide = $zip->getFromName('ppt/slides/slide22.xml');
-checkWebsite(str_contains($quizSlide, 'sz="5200"') && str_contains($quizSlide, 'sz="2900"'), 'Quiz fonts are not exactly doubled');
+checkWebsite(str_contains($quizSlide, 'sz="5200"') && str_contains($quizSlide, 'sz="2900"') && str_contains($quizSlide, 'sz="7400"'), 'Quiz fonts are not correctly scaled');
 $zip->close();
-echo "PASS: providers, phrases, storage, adaptive layout, quiz, answers, 27-slide PPTX\n";
+echo "PASS: providers, phrases, storage, adaptive layout, quiz, answers, 30-slide PPTX\n";
