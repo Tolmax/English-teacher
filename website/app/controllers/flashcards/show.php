@@ -6,7 +6,10 @@ $presentationId = requireNumericId($segments[1] ?? null);
 $presentation = getAiWordPresentationById($presentationId);
 requireFound($presentation);
 
-if (!in_array((string)($presentation['status'] ?? ''), ['ready', 'published'], true) || !aiWordPresentationDeckIsPublished($presentation)) {
+$isDeckPublished = aiWordPresentationDeckIsPublished($presentation);
+$isTeacherPreview = isAdmin() && !$isDeckPublished;
+
+if (!in_array((string)($presentation['status'] ?? ''), ['ready', 'published'], true) || (!$isDeckPublished && !$isTeacherPreview)) {
     abort404();
 }
 
@@ -16,4 +19,5 @@ requireFound($cards);
 renderTemplate('pages/flashcards/show.tpl', [
     'presentation' => $presentation,
     'cards' => $cards,
+    'isTeacherPreview' => $isTeacherPreview,
 ]);

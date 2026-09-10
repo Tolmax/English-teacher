@@ -21,7 +21,7 @@ include ROOT . 'templates/partials/admin-header.tpl';
           <div class="section__header section__header--inline">
             <div>
               <h2 id="ai-presentations-list-title">Список презентаций</h2>
-              <p class="section__lead">Здесь можно создать презентацию, опубликовать или скрыть связанную колоду карточек и удалить весь комплект.</p>
+              <p class="section__lead">Презентация и колода управляются отдельно: показывайте презентацию учителю, а колоду проверяйте, публикуйте или скрывайте прямо в списке.</p>
             </div>
             <a class="button button--primary" href="<?= HOST ?>admin/ai-presentations/create">Новая презентация</a>
           </div>
@@ -34,7 +34,8 @@ include ROOT . 'templates/partials/admin-header.tpl';
                   <th scope="col">Название</th>
                   <th scope="col">Класс</th>
                   <th scope="col">Содержимое</th>
-                  <th scope="col">Статус</th>
+                  <th scope="col">Презентация</th>
+                  <th scope="col">Колода</th>
                   <th scope="col">Обновлена</th>
                   <th scope="col">Действия</th>
                 </tr>
@@ -42,7 +43,7 @@ include ROOT . 'templates/partials/admin-header.tpl';
               <tbody>
                 <?php if (empty($presentations)): ?>
                   <tr>
-                    <td colspan="6">Презентаций пока нет. Создайте первую презентацию из английских слов или загрузите готовый PPTX.</td>
+                    <td colspan="7">Презентаций пока нет. Создайте первую презентацию из английских слов или загрузите готовый PPTX.</td>
                   </tr>
                 <?php endif; ?>
                 <?php foreach ($presentations as $presentation): ?>
@@ -51,6 +52,9 @@ include ROOT . 'templates/partials/admin-header.tpl';
                     $wordsCount = aiWordPresentationWordsCount($presentation);
                     $hasPptx = !empty($presentation['pptx_file_id']);
                     $isUploadedPptx = $hasPptx && empty($cards) && $wordsCount === 0;
+                    $deckCards = aiWordPresentationDeckCards($presentation);
+                    $hasDeck = !empty($deckCards);
+                    $isDeckPublished = $hasDeck && aiWordPresentationDeckIsPublished($presentation);
                   ?>
                   <tr>
                     <th scope="row"><?= e($presentation['title']) ?></th>
@@ -63,10 +67,33 @@ include ROOT . 'templates/partials/admin-header.tpl';
                       <?php endif; ?>
                     </td>
                     <td><span class="badge"><?= e(aiWordPresentationStatusLabel((string)$presentation['status'])) ?></span></td>
+                    <td>
+                      <?php if ($hasDeck): ?>
+                        <div class="stack">
+                          <span class="badge"><?= $isDeckPublished ? 'Опубликована' : 'Скрыта' ?></span>
+                          <div class="cluster">
+                            <a class="button button--secondary button--small" href="<?= HOST ?>flashcards/<?= (int)$presentation['id'] ?>" target="_blank" rel="noopener">Открыть колоду</a>
+                            <form action="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/deck-publish" method="post">
+                              <input type="hidden" name="csrf_token" value="<?= e(presentationCsrfToken()) ?>">
+                              <input type="hidden" name="published" value="<?= $isDeckPublished ? '0' : '1' ?>">
+                              <input type="hidden" name="return_to" value="index">
+                              <button class="button <?= $isDeckPublished ? 'button--secondary' : 'button--primary' ?> button--small" type="submit"><?= $isDeckPublished ? 'Снять с публикации' : 'Опубликовать в классе' ?></button>
+                            </form>
+                          </div>
+                        </div>
+                      <?php elseif (!empty($cards)): ?>
+                        <div class="stack">
+                          <span class="badge">Не собрана</span>
+                          <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/edit">Собрать колоду</a>
+                        </div>
+                      <?php else: ?>
+                        <span class="badge">Нет колоды</span>
+                      <?php endif; ?>
+                    </td>
                     <td><?= e($presentation['updated_at']) ?></td>
                     <td>
                       <div class="cluster">
-                        <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/edit">Редактировать</a>
+                        <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/edit">Изменить</a>
                         <?php if (!empty($cards) || $hasPptx): ?>
                           <a href="<?= HOST ?>admin/ai-presentations/<?= (int)$presentation['id'] ?>/show" target="_blank" rel="noopener">Показать учителю</a>
                         <?php endif; ?>

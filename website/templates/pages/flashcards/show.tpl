@@ -6,13 +6,22 @@ include ROOT . 'templates/partials/header.tpl';
   <main>
     <section class="section flashcard-deck-page" aria-labelledby="flashcard-deck-title">
       <div class="container stack">
+        <?php if (!empty($isTeacherPreview)): ?>
+          <div class="alert alert--warning" role="status">
+            Предпросмотр учителя: эта колода пока скрыта от учеников. Опубликовать её можно в списке «ИИ-презентации».
+          </div>
+        <?php endif; ?>
         <div class="section__header section__header--inline">
           <div>
             <p class="flashcard-deck__eyebrow">Тренировка слов</p>
             <h1 id="flashcard-deck-title"><?= e((string)$presentation['title']) ?></h1>
             <p class="section__lead">Назови перевод, нажми на карточку и проверь себя.</p>
           </div>
-          <a class="button button--secondary" href="<?= HOST ?>class/<?= e((string)$presentation['class_slug']) ?>">Назад к классу</a>
+          <?php if (!empty($isTeacherPreview)): ?>
+            <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations">Назад к списку презентаций</a>
+          <?php else: ?>
+            <a class="button button--secondary" href="<?= HOST ?>class/<?= e((string)$presentation['class_slug']) ?>">Назад к классу</a>
+          <?php endif; ?>
         </div>
 
         <div class="flashcard-deck" data-flashcard-deck>
@@ -60,7 +69,11 @@ include ROOT . 'templates/partials/header.tpl';
             <h2>Все слова выучены!</h2>
             <p>Колода пройдена полностью. Можно перемешать карточки и начать ещё раз.</p>
             <div class="flashcard-deck__complete-actions">
-              <a class="button button--secondary" href="<?= HOST ?>class/<?= e((string)$presentation['class_slug']) ?>">Вернуться на страницу класса</a>
+              <?php if (!empty($isTeacherPreview)): ?>
+                <a class="button button--secondary" href="<?= HOST ?>admin/ai-presentations">Вернуться к списку презентаций</a>
+              <?php else: ?>
+                <a class="button button--secondary" href="<?= HOST ?>class/<?= e((string)$presentation['class_slug']) ?>">Вернуться на страницу класса</a>
+              <?php endif; ?>
               <button class="button button--primary" type="button" data-deck-restart>Пройти ещё раз</button>
             </div>
           </section>

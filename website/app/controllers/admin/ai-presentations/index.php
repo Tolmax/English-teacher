@@ -3,6 +3,7 @@
 require ROOT . 'app/models/class.php';
 require ROOT . 'app/models/ai-word-presentation.php';
 require ROOT . 'app/validators/ai-word-presentation.php';
+require_once ROOT . 'app/services/yandex-service.php';
 
 $action = $segments[2] ?? 'index';
 
