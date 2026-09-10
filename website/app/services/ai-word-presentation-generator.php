@@ -29,6 +29,67 @@ function generateAiWordPresentationCards(array $presentation, ?string $provider 
     return $result;
 }
 
+function fillMissingAiWordPresentationTranslations(
+    array $presentation,
+    array $cards,
+    ?string $provider = null,
+    ?callable $generateCards = null
+): array {
+    $missingIndexes = [];
+    $missingEnglishWords = [];
+
+    foreach ($cards as $index => &$card) {
+        if (trim((string)($card['translation_ru'] ?? '')) !== '') {
+            continue;
+        }
+
+        $sourceWord = normalizeAiWordPresentationCardText((string)($card['source_word'] ?? ''));
+        if ($sourceWord !== '' && preg_match('/[А-Яа-яЁё]/u', $sourceWord)) {
+            $card['translation_ru'] = $sourceWord;
+            continue;
+        }
+
+        $englishWord = normalizeAiWordPresentationCardText((string)($card['english_word'] ?? $sourceWord));
+        if ($englishWord !== '') {
+            $missingIndexes[] = $index;
+            $missingEnglishWords[] = $englishWord;
+        }
+    }
+    unset($card);
+
+    if ($missingEnglishWords === []) {
+        return $cards;
+    }
+
+    $provider = getAiTextProvider($provider);
+    if ($generateCards === null) {
+        if (!hasConfiguredAiTextProvider($provider)) {
+            throw new RuntimeException('Не удалось автоматически добавить русские переводы: AI-провайдер не настроен.');
+        }
+        $generateCards = static function (array $words) use ($presentation, $provider): array {
+            return generatePresentationCardsWithOpenAi(
+                $provider === 'yandex' ? presentationEnvValue('YANDEX_API_KEY') : (string)OPENAI_API_KEY,
+                (string)($presentation['title'] ?? 'Vocabulary presentation'),
+                (string)($presentation['class_title'] ?? ''),
+                $words,
+                $provider === 'yandex' ? 'requestYandexCards' : 'requestPresentationCards'
+            );
+        };
+    }
+
+    $generated = $generateCards($missingEnglishWords);
+    $generatedCards = array_values((array)($generated['cards'] ?? []));
+    foreach ($missingIndexes as $position => $cardIndex) {
+        $translation = normalizeAiWordPresentationCardText((string)($generatedCards[$position]['translation_ru'] ?? ''));
+        if ($translation === '') {
+            throw new RuntimeException('Яндекс не смог автоматически добавить русский перевод для «' . $missingEnglishWords[$position] . '».');
+        }
+        $cards[$cardIndex]['translation_ru'] = $translation;
+    }
+
+    return $cards;
+}
+
 function translatePresentationLearningWords(array $words, string $provider): array
 {
     $russian = [];

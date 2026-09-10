@@ -2,6 +2,7 @@
 
 require ROOT . 'app/models/material.php';
 require ROOT . 'app/models/material-file.php';
+require ROOT . 'app/services/ai-word-presentation-generator.php';
 require ROOT . 'app/services/ai-word-presentation-images.php';
 require ROOT . 'app/services/pptx-presentation-builder.php';
 
@@ -17,6 +18,13 @@ requireFound($presentation);
 $submittedCards = array_key_exists('cards', $_POST)
     ? normalizeAiWordPresentationCards($_POST['cards'])
     : aiWordPresentationCards($presentation);
+
+try {
+    $submittedCards = fillMissingAiWordPresentationTranslations($presentation, $submittedCards);
+} catch (RuntimeException $exception) {
+    setFlash('admin_error', $exception->getMessage());
+    redirectTo('admin/ai-presentations/' . $presentationId . '/edit');
+}
 
 if (array_key_exists('cards', $_POST)) {
     $submittedData = [

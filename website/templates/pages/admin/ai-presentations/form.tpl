@@ -214,7 +214,8 @@ include ROOT . 'templates/partials/admin-header.tpl';
 
                     <div class="form__field">
                       <label class="form__label" for="card-<?= (int)$index ?>-translation">Перевод для обратной стороны карточки</label>
-                      <input class="input" type="text" id="card-<?= (int)$index ?>-translation" name="cards[<?= (int)$index ?>][translation_ru]" value="<?= e($card['translation_ru'] ?? '') ?>" required>
+                      <input class="input" type="text" id="card-<?= (int)$index ?>-translation" name="cards[<?= (int)$index ?>][translation_ru]" value="<?= e($card['translation_ru'] ?? '') ?>">
+                      <span class="form__hint">Если перевод пустой, при сборке он будет добавлен автоматически.</span>
                     </div>
 
                     <div class="form__field">

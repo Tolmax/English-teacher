@@ -25,6 +25,25 @@ checkWebsite(array_keys(getAiTextProviderOptions()) === ['openai', 'yandex'], 'W
 $parsed = generatePresentationCardsWithOpenAi('fixture', 'test', '5', $words, static fn() => ['text' => json_encode(['cards' => array_reverse($cards)])]);
 checkWebsite(array_column($parsed['cards'], 'english_word') === $words, 'Order changed');
 checkWebsite(aiWordPresentationCards(['cards_json' => encodeAiWordPresentationCards($cards)]) === normalizeAiWordPresentationCards($cards), 'Storage lost fields');
+$legacyCards = [
+    ['source_word' => 'машина', 'english_word' => 'car', 'translation_ru' => ''],
+    ['source_word' => 'drive a car', 'english_word' => 'drive a car', 'translation_ru' => ''],
+    ['source_word' => 'family', 'english_word' => 'family', 'translation_ru' => 'семья'],
+];
+$translationRequests = [];
+$legacyCards = fillMissingAiWordPresentationTranslations(
+    ['title' => 'Legacy cards', 'class_title' => '5'],
+    $legacyCards,
+    'yandex',
+    static function (array $words) use (&$translationRequests): array {
+        $translationRequests[] = $words;
+        return ['cards' => [['translation_ru' => 'водить машину']]];
+    }
+);
+checkWebsite($legacyCards[0]['translation_ru'] === 'машина', 'Russian source was not reused as its translation');
+checkWebsite($legacyCards[1]['translation_ru'] === 'водить машину', 'Missing English translation was not generated');
+checkWebsite($legacyCards[2]['translation_ru'] === 'семья', 'Existing translation was overwritten');
+checkWebsite($translationRequests === [['drive a car']], 'Only missing English translations should use AI');
 $longBox = pptxAdaptiveTextBox($words[5], 5200, 1400000);
 checkWebsite($longBox['width'] > 7315200, 'Long phrase box did not expand');
 $browserSlides = buildPresentationPlayerSlides($cards);
